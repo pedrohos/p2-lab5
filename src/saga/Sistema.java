@@ -161,7 +161,7 @@ public class Sistema {
 	}
 	
 	public String exibirProduto(String fornecedor, String nome, String descricao) {
-		if (!existeFornecedor(nome)) {
+		if (!existeFornecedor(fornecedor)) {
 			return "NaNFornecedor";
 		}
 		if (!existeProduto(fornecedor, nome, descricao)) {
@@ -169,5 +169,43 @@ public class Sistema {
 		}
 		
 		return this.fornecedores.get(nome).exibirProduto(nome, descricao);
+	}
+	
+	public String listarProdutos(String fornecedor) {
+		if (!existeFornecedor(fornecedor)) {
+			return "NaNFornecedor";
+		}
+		
+		if(!fornecedores.get(fornecedor).possuiProduto()) {
+			return "SemProduto";
+		}
+		
+		return fornecedores.get(fornecedor).listarProdutos();
+	}
+	
+	public String listarProdutosTodosFornecedores () {
+		if (fornecedores.isEmpty()) {
+			return "FornecedorVazio";
+		}
+		
+		String resultado = "";
+		for (Fornecedor f: fornecedores.values()) {
+			if (!f.possuiProduto()) {
+				continue;
+			}
+			
+			resultado += f.listarProdutos();
+		}
+		
+		return resultado;
+	}
+	
+	public String removeProduto(String fornecedor, String nome, String descricao) {
+		if (!existeFornecedor(fornecedor)) {
+			return "NaNFornecedor";
+		}
+		
+		this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
+		return "";
 	}
 }

@@ -117,6 +117,4 @@ public class Cliente {
 			return false;
 		return true;
 	}
-	
-	
 }

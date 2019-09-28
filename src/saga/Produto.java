@@ -8,6 +8,15 @@ public class Produto {
 		this.id = new IdProduto(nome, descricao);
 		this.preco = preco;
 	}
+	
+	public void setPreco(double preco) {
+		if (preco <= 0) {
+			throw new IllegalArgumentException("Preco invalido");
+		}
+		
+		this.preco = preco;
+	}
+	
 	@Override
 	public String toString() {
 		return id.toString() + " - R$" + preco;
@@ -37,6 +46,4 @@ public class Produto {
 			return false;
 		return true;
 	}
-	
-	
 }

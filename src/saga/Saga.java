@@ -25,16 +25,16 @@ public class Saga {
 		return sistema.listaClientes();
 	}
 	
-	public boolean removeCliente(String cpf) {
-		return sistema.removeCliente(cpf);
+	public void removeCliente(String cpf) {
+		sistema.removeCliente(cpf);
 	}
 	
-	public boolean cadastrarFornecedor(String nome, String email, String telefone) {
-		return sistema.cadastrarFornecedor(nome, email, telefone);
+	public String adicionaFornecedor(String nome, String email, String telefone) {
+		return sistema.adicionaFornecedor(nome, email, telefone);
 	}
 	
-	public String exibirFornecedor(String nome) {
-		return sistema.exibirFornecedor(nome);
+	public String exibeFornecedor(String nome) {
+		return sistema.exibeFornecedor(nome);
 	}
 	
 	public String listarFornecedores() {
@@ -45,8 +45,8 @@ public class Saga {
 		return sistema.editaFornecedor(nome, atributo, valor);
 	}
 	
-	public boolean removeFornecedor(String cpf) {
-		return sistema.removeFornecedor(cpf);
+	public void removeFornecedor(String cpf) {
+		sistema.removeFornecedor(cpf);
 	}
 	
 	public String cadastrarProduto(String fornecedor, String nome, String descricao, double preco) {
@@ -70,11 +70,11 @@ public class Saga {
 	}
 	
 	public static void main(String[] args) {
-		args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt" };
-		EasyAccept.main(args);
-		
-		//args = new String[] { "saga.Saga", "testes_aceitacao/use_case_2.txt" };
+		//args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt" };
 		//EasyAccept.main(args);
+		
+		args = new String[] { "saga.Saga", "testes_aceitacao/use_case_2.txt" };
+		EasyAccept.main(args);
 		
 		//args = new String[] { "saga.Saga", "testes_aceitacao/use_case_3.txt" };
 		//EasyAccept.main(args);

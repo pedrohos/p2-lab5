@@ -97,30 +97,36 @@ public class Sistema {
 		return resultado;
 	}
 	
-	public boolean removeCliente(String cpf) {
+	public void removeCliente(String cpf) {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro na remocao do cliente: cpf nao pode ser vazio ou nulo");
 		
 		if(existeCliente(cpf)) {
 			clientes.remove(cpf);
-			return true;
 		}
 		throw new IllegalArgumentException("Erro na remocao do cliente: cliente nao existe.");
 	}
 	
-	public boolean cadastrarFornecedor(String nome, String email, String telefone) {
+	public String adicionaFornecedor(String nome, String email, String telefone) {
+		if(nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo.");
+		if(email == null || email.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: email nao pode ser vazio ou nulo.");
+		if(telefone == null || telefone.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
+		
 		if (!this.existeFornecedor(nome)) {
 			fornecedores.put(nome, new Fornecedor(nome, email, telefone));
-			return true;
+			return nome;
 		}
-		return false;
+		throw new IllegalArgumentException("Erro no cadastro de fornecedor: fornecedor ja existe.");
 	}
 	
-	public String exibirFornecedor(String nome) {
+	public String exibeFornecedor(String nome) {
 		if (this.existeFornecedor(nome)) {
 			return this.fornecedores.get(nome).toString();
 		}
-		return "";
+		throw new IllegalArgumentException("Erro na exibicao do fornecedor: fornecedor nao existe.");
 	}
 	
 	public String listarFornecedores() {
@@ -140,28 +146,38 @@ public class Sistema {
 	}
 	
 	public String editaFornecedor(String nome, String atributo, String valor) {
-		if (valor.trim().equals("")) throw new IllegalArgumentException("Valor vazio!");
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: nome nao pode ser vazio ou nulo.");
+		if (valor == null || valor.equals(""))
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo.");
+		if (atributo == null || atributo.equals(""))
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: atributo nao pode ser vazio ou nulo.");
+		
 		if(existeFornecedor(nome)) {
 			switch(atributo) {
+				case "nome":
+					throw new IllegalArgumentException("Erro na edicao do fornecedor: nome nao pode ser editado.");
 				case "email":
 					this.fornecedores.get(nome).setEmail(valor);
 					return "Email";
 				case "telefone":
-					this.clientes.get(nome).setLocalizacao(valor);
+					this.fornecedores.get(nome).setTelefone(valor);
 					return "Telefone";
 				default:
-					return "";
+					throw new IllegalArgumentException("Erro na edicao do fornecedor: atributo nao existe.");
 			}
 		}
-		return "NaNFornecedor";
+		throw new IllegalArgumentException("Erro na edicao do fornecedor: fornecedor nao existe.");
 	}
 	
-	public boolean removeFornecedor(String cpf) {
-		if(existeFornecedor(cpf)) {
-			fornecedores.remove(cpf);
-			return true;
+	public void removeFornecedor(String nome) {
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na remocao do fornecedor: nome do fornecedor nao pode ser vazio ou nulo.");
+		
+		if(!existeFornecedor(nome)) {
+			throw new IllegalArgumentException("Erro na remocao do fornecedor: fornecedor nao existe.");
 		}
-		return false;
+		fornecedores.remove(nome);
 	}
 	
 	public String cadastrarProduto(String fornecedor, String nome, String descricao, double preco) {

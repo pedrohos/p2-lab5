@@ -9,12 +9,12 @@ public class Saga {
 		sistema = new Sistema();
 	}
 	
-	public String cadastraCliente(String cpf, String nome, String email, String localizacao) {
-		return sistema.cadastraCliente(cpf, nome, email, localizacao);
+	public String adicionaCliente(String cpf, String nome, String email, String localizacao) {
+		return sistema.adicionaCliente(cpf, nome, email, localizacao);
 	}
 	
-	public String getClienteToString(String cpf) {
-		return sistema.getClienteToString(cpf);
+	public String exibeCliente(String cpf) {
+		return sistema.exibeCliente(cpf);
 	}
 	
 	public String editaCliente(String cpf, String atributo, String valor) {

@@ -41,12 +41,20 @@ public class Cliente {
 	 * @param localizacao sera atribuido ao atributo localizacao do cliente.
 	 */
 	public Cliente(String cpf, String nome, String email, String localizacao) {
-		if (cpf == null || nome == null || email == null || localizacao == null) {
-			throw new IllegalArgumentException("Parametro nulo!");
-		}
-		if (cpf.trim().equals("") || nome.trim().equals("") || email.trim().equals("") || localizacao.trim().equals("")) {
-			throw new IllegalArgumentException("Parametro vazio!");
-		}
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do cliente: cpf nao pode ser vazio ou nulo.");
+		
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
+		
+		if (email == null || email.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
+		
+		if (localizacao == null || localizacao.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
+		
+		if(cpf.length() != 11)
+			throw new IllegalArgumentException("Erro no cadastro do cliente: cpf invalido.");
 		
 		this.cpf = cpf;
 		this.nome = nome;

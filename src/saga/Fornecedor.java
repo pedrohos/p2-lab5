@@ -10,11 +10,14 @@ public class Fornecedor {
 	private String telefone;
 	
 	public Fornecedor(String nome, String email, String telefone) {
-		if (nome == null || email == null || telefone == null) {
-			throw new IllegalArgumentException("Parametro nulo!");
+		if (nome == null || nome.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
 		}
-		if (nome.trim().equals("") || email.trim().equals("") || telefone.trim().equals("")) {
-			throw new IllegalArgumentException("Parametro vazio!");
+		if (email == null || email.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
+		}
+		if (telefone == null || telefone.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: telefone nao pode ser vazio ou nulo.");
 		}
 		
 		this.nome = nome;

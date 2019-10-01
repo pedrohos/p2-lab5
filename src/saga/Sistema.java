@@ -33,26 +33,38 @@ public class Sistema {
 		return false;
 	}
 	
-	public String cadastraCliente(String cpf, String nome, String email, String localizacao) {
+	public String adicionaCliente(String cpf, String nome, String email, String localizacao) {
 		if(!this.clientes.containsKey(cpf)) {
 			this.clientes.put(cpf, new Cliente(cpf, nome, email, localizacao));
 			return cpf;
 		}
-		throw new IllegalArgumentException("Cpf ja cadastrado!");
+		throw new IllegalArgumentException("Erro no cadastro do cliente: cliente ja existe.");
 		
 	}
 	
-	public String getClienteToString(String cpf) {
+	public String exibeCliente(String cpf) {
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro na exibicao do cliente: cpf nao pode ser vazio ou nulo.");
 		if(existeCliente(cpf)) {
 			return this.clientes.get(cpf).toString();	
 		}
-		return null;
+		throw new IllegalArgumentException("Erro na exibicao do cliente: cliente nao existe.");
 	}
 	
 	public String editaCliente(String cpf, String atributo, String valor) {
-		if (valor.trim().equals("")) throw new IllegalArgumentException("Valor vazio!");
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro na edicao do cliente: cpf nao pode ser vazio ou nulo.");
+		
+		if (atributo == null || atributo.equals(""))
+			throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao pode ser vazio ou nulo.");
+		
+		if (valor == null || valor.equals(""))
+			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
+		
 		if(existeCliente(cpf)) {
 			switch(atributo) {
+				case "cpf":
+					throw new IllegalArgumentException("Erro na edicao do cliente: cpf nao pode ser editado.");
 				case "nome":
 					this.clientes.get(cpf).setNome(valor);
 					return "Nome";
@@ -63,10 +75,10 @@ public class Sistema {
 					this.clientes.get(cpf).setLocalizacao(valor);
 					return "Localizacao";
 				default:
-					return "";
+					throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao existe.");
 			}
 		}
-		return "NaNCliente";
+		throw new IllegalArgumentException("Erro na edicao do cliente: cliente nao existe.");
 	}
 	
 	public String listaClientes() {
@@ -86,11 +98,14 @@ public class Sistema {
 	}
 	
 	public boolean removeCliente(String cpf) {
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro na remocao do cliente: cpf nao pode ser vazio ou nulo");
+		
 		if(existeCliente(cpf)) {
 			clientes.remove(cpf);
 			return true;
 		}
-		return false;
+		throw new IllegalArgumentException("Erro na remocao do cliente: cliente nao existe.");
 	}
 	
 	public boolean cadastrarFornecedor(String nome, String email, String telefone) {

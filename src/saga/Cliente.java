@@ -1,16 +1,15 @@
 package saga;
 
 /**
- * Representação do Cliente no sistema.
- * Todo cliente possui um cpf (identificador único), nome, email e um local onde ele frenquenta (localizacao).
+ * Representacaoo do Cliente no sistema.
+ * Todo cliente possui um cpf (identificador unico), nome, email e um local onde ele frenquenta (localizacao).
  * 
- * 
- * @author Pedro Silva
+ * @author Pedro Henrique
  */
 public class Cliente {
 	
 	/**
-	 * Cpf do cliente, é seu identificador único.
+	 * Cpf do cliente, e seu identificador unico.
 	 */
 	private String cpf;
 	
@@ -31,13 +30,20 @@ public class Cliente {
 	
 	/**
 	 * Constroi o cliente atribuindo os parametros cpf, nome, email e localizacao aos atributos do cliente.
-	 * Verifica se qualquer um dos parametros é nulo ou vazio, caso seja, será retornado um IllegalArgumentException.
+	 * Verifica se qualquer um dos parametros é nulo ou vazio, caso seja, sera retornado um IllegalArgumentException.
 	 * 
-	 * @throws Lanca um IllegalArgumentException("Parametro nulo!") caso o parametro seja nulo, caso ele esteja vazio,
-	 * ser lancado um IllegalArgumentException("Parametro vazio!") 
-	 * @param cpf sera atribuído ao atributo cpf do cliente.
-	 * @param nome sera atribuído ao atributo nome do cliente.
-	 * @param email sera atribuído ao atributo email do cliente.
+	 * Caso o cpf seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro do cliente: cpf nao pode ser vazio ou nulo."
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro do cliente: nome nao pode ser vazio ou nulo."
+	 * Caso o email seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro do cliente: email nao pode ser vazio ou nulo."
+	 * Caso a localizacao seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula."
+	 *  
+	 * @param cpf sera atribuido ao atributo cpf do cliente.
+	 * @param nome sera atribuido ao atributo nome do cliente.
+	 * @param email sera atribuido ao atributo email do cliente.
 	 * @param localizacao sera atribuido ao atributo localizacao do cliente.
 	 */
 	public Cliente(String cpf, String nome, String email, String localizacao) {
@@ -107,7 +113,7 @@ public class Cliente {
 	}
 	
 	/**
-	 * Verifica se dois clientes são iguais ao comparar seus cpfs.
+	 * Verifica se dois clientes sao iguais ao comparar seus cpfs.
 	 */
 	@Override
 	public boolean equals(Object obj) {

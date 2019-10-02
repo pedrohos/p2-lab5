@@ -201,8 +201,8 @@ public class Saga {
 	 * @return retorna o atributo que foi modificado caso a modificacao tenha
 	 * sido efetuada com sucesso.
 	 */
-	public String editaProduto(String nome, String descricao, String fornecedor, double valor) {
-		return sistema.editaProduto(nome, descricao, fornecedor, valor);
+	public void editaProduto(String nome, String descricao, String fornecedor, double valor) {
+		sistema.editaProduto(nome, descricao, fornecedor, valor);
 	}
 	
 	/**

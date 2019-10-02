@@ -101,10 +101,11 @@ public class Sistema {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro na remocao do cliente: cpf nao pode ser vazio ou nulo");
 		
-		if(existeCliente(cpf)) {
-			clientes.remove(cpf);
+		if(!existeCliente(cpf)) {
+			throw new IllegalArgumentException("Erro na remocao do cliente: cliente nao existe.");
 		}
-		throw new IllegalArgumentException("Erro na remocao do cliente: cliente nao existe.");
+		clientes.remove(cpf);
+		
 	}
 	
 	public String adicionaFornecedor(String nome, String email, String telefone) {
@@ -116,7 +117,7 @@ public class Sistema {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
 		
 		if (!this.existeFornecedor(nome)) {
-			fornecedores.put(nome, new Fornecedor(nome, email, telefone));
+			this.fornecedores.put(nome, new Fornecedor(nome, email, telefone));
 			return nome;
 		}
 		throw new IllegalArgumentException("Erro no cadastro de fornecedor: fornecedor ja existe.");
@@ -180,31 +181,47 @@ public class Sistema {
 		fornecedores.remove(nome);
 	}
 	
-	public String cadastrarProduto(String fornecedor, String nome, String descricao, double preco) {
-		if (!existeFornecedor(nome)) {
-			return "NaNFornecedor";
+	public void adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
+		if (fornecedor == null || fornecedor.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo.");
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
+		if (preco <= 0)
+			throw new IllegalArgumentException("Erro no cadastro de produto: preco invalido.");
+		
+		if (!existeFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao existe.");
 		}
 		if (existeProduto(fornecedor, nome, descricao)) {
-			return "ExisteProduto";
-		}
-		this.fornecedores.get(nome).cadastrarProduto(nome, descricao, preco);
-		return "";
-	}
-	
-	public String exibirProduto(String fornecedor, String nome, String descricao) {
-		if (!existeFornecedor(fornecedor)) {
-			return "NaNFornecedor";
-		}
-		if (!existeProduto(fornecedor, nome, descricao)) {
-			return "NaNProduto";
+			throw new IllegalArgumentException("Erro no cadastro de produto: produto ja existe.");
 		}
 		
-		return this.fornecedores.get(nome).exibirProduto(nome, descricao);
+		this.fornecedores.get(fornecedor).adicionaProduto(nome, descricao, preco);
+	}
+	
+	public String exibeProduto(String nome, String descricao, String fornecedor) {
+		if (fornecedor == null || fornecedor.equals(""))
+			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao pode ser vazio ou nulo.");
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na exibicao de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
+		
+		if (!existeFornecedor(fornecedor)) 
+			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao existe.");
+		
+		if (!existeProduto(fornecedor, nome, descricao)) {
+			throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
+		}
+		
+		return this.fornecedores.get(fornecedor).exibeProduto(nome, descricao);
 	}
 	
 	public String listarProdutos(String fornecedor) {
 		if (!existeFornecedor(fornecedor)) {
-			return "NaNFornecedor";
+			throw new IllegalArgumentException("Erro na listagem de produtos: fornecedor nao existe.");
 		}
 		
 		if(!fornecedores.get(fornecedor).possuiProduto()) {
@@ -224,19 +241,47 @@ public class Sistema {
 			if (!f.possuiProduto()) {
 				continue;
 			}
-			
 			resultado += f.listarProdutos();
 		}
 		
 		return resultado;
 	}
 	
-	public String removeProduto(String fornecedor, String nome, String descricao) {
+	public String editaProduto(String nome, String descricao, String fornecedor, double valor) {
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na edicao de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro na edicao de produto: descricao nao pode ser vazia ou nula.");
+		if (fornecedor == null || fornecedor.equals(""))
+			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao pode ser vazio ou nulo.");
+		if (valor <= 0)
+			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
+		
+		if(!existeFornecedor(fornecedor))
+			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao existe.");
+		
+		if(!existeProduto(fornecedor, nome, descricao)) 
+			throw new IllegalArgumentException("Erro na edicao de produto: produto nao existe.");
+		
+		this.fornecedores.get(fornecedor).editaProduto(nome, descricao, valor);
+		return "";
+	}
+	
+	public String removeProduto(String nome, String descricao, String fornecedor) {
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
+		if (fornecedor == null || fornecedor.equals(""))
+			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao pode ser vazio ou nulo.");
+		
 		if (!existeFornecedor(fornecedor)) {
-			return "NaNFornecedor";
+			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao existe.");
+		}
+		if (!existeProduto(fornecedor, nome, descricao)) {
+			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
-		this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
-		return "";
+		return this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 	}
 }

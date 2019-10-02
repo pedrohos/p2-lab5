@@ -49,12 +49,12 @@ public class Saga {
 		sistema.removeFornecedor(cpf);
 	}
 	
-	public String cadastrarProduto(String fornecedor, String nome, String descricao, double preco) {
-		return sistema.cadastrarProduto(fornecedor, nome, descricao, preco);
+	public void adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
+		sistema.adicionaProduto(fornecedor, nome, descricao, preco);
 	}
 	
-	public String exibirProduto(String fornecedor, String nome, String descricao) {
-		return sistema.exibirProduto(fornecedor, nome, descricao);
+	public String exibeProduto(String fornecedor, String nome, String descricao) {
+		return sistema.exibeProduto(fornecedor, nome, descricao);
 	}
 	
 	public String listarProdutos(String fornecedor) {
@@ -65,21 +65,16 @@ public class Saga {
 		return sistema.listarProdutosTodosFornecedores();
 	}
 	
+	public String editaProduto(String nome, String descricao, String fornecedor, double valor) {
+		return sistema.editaProduto(nome, descricao, fornecedor, valor);
+	}
+	
 	public String removeProduto(String fornecedor, String nome, String descricao) {
 		return sistema.removeProduto(fornecedor, nome, descricao);
 	}
 	
 	public static void main(String[] args) {
-		//args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt" };
-		//EasyAccept.main(args);
-		
-		args = new String[] { "saga.Saga", "testes_aceitacao/use_case_2.txt" };
+		args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt", "testes_aceitacao/use_case_2.txt", "testes_aceitacao/use_case_3.txt" };
 		EasyAccept.main(args);
-		
-		//args = new String[] { "saga.Saga", "testes_aceitacao/use_case_3.txt" };
-		//EasyAccept.main(args);
-		
-		//args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt", "testes_aceitacao/use_case_2.txt", "testes_aceitacao/use_case_3.txt" };
-		//EasyAccept.main(args);
 	}
 }

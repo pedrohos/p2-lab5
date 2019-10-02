@@ -20,6 +20,7 @@ public class Fornecedor {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: telefone nao pode ser vazio ou nulo.");
 		}
 		
+		this.produtos = new HashMap<>();
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
@@ -40,16 +41,14 @@ public class Fornecedor {
 		return false;
 	}
 	
-	public boolean cadastrarProduto(String nome, String descricao, double preco) {
+	public void adicionaProduto(String nome, String descricao, double preco) {
 		IdProduto id = new IdProduto(nome, descricao);
-		if (existeProduto(nome, descricao)) {
+		if (!existeProduto(nome, descricao)) {
 			produtos.put(id, new Produto(nome, descricao, preco));
-			return true;
 		}
-		return false;
 	}
 	
-	public String exibirProduto(String nome, String descricao) {
+	public String exibeProduto(String nome, String descricao) {
 		if (!existeProduto(nome, descricao)) {
 			return "NaNProduto";
 		}
@@ -73,9 +72,17 @@ public class Fornecedor {
 		return resultado;
 	}
 	
+	public void editaProduto(String nome, String descricao, double valor) {
+		if (!existeProduto(nome, descricao)) {
+			throw new IllegalArgumentException("Erro na edicao de produto: produto nao existe.");
+		}
+		
+		this.produtos.get(new IdProduto(nome, descricao)).setPreco(valor);
+	}
+	
 	public String removeProduto(String nome, String descricao) {
 		if (!existeProduto(nome, descricao)) {
-			return "NaNProduto";
+			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
 		this.produtos.remove(new IdProduto(nome, descricao));

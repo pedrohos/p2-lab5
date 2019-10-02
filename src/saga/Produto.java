@@ -10,16 +10,19 @@ public class Produto {
 	}
 	
 	public void setPreco(double preco) {
-		if (preco <= 0) {
+		if (preco <= 0) 
 			throw new IllegalArgumentException("Preco invalido");
-		}
 		
 		this.preco = preco;
 	}
 	
+	private double getPreco() {
+		return this.preco;
+	}
+	
 	@Override
 	public String toString() {
-		return id.toString() + " - R$" + preco;
+		return String.format("%s - R$%.2f", this.id.toString(), getPreco());
 	}
 
 	@Override

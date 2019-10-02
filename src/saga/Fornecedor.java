@@ -80,13 +80,12 @@ public class Fornecedor {
 		this.produtos.get(new IdProduto(nome, descricao)).setPreco(valor);
 	}
 	
-	public String removeProduto(String nome, String descricao) {
+	public void removeProduto(String nome, String descricao) {
 		if (!existeProduto(nome, descricao)) {
 			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
 		this.produtos.remove(new IdProduto(nome, descricao));
-		return "";
 	}
 	
 	public void setEmail(String valor) {

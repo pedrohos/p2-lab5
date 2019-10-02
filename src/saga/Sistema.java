@@ -3,15 +3,43 @@ package saga;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Representacao do Sistema SAGA.
+ * O sistema adiciona, recupera, edita e apaga clientes e fornecedores.
+ * E também adiciona, recupera, edita e apaga produtos que estao afiliados
+ * a determinado fornecedor.
+ * 
+ * @author Pedro Henrique
+ */
 public class Sistema {
+	
+	/**
+	 * Armazena no mapa de clientes o cpf do Cliente, Cliente.
+	 */
 	private HashMap<String, Cliente> clientes;
+	
+	/**
+	 * Armazena no mapa de fornecedores o nome do fornecedor, Fornecedor.
+	 */
 	private HashMap<String, Fornecedor> fornecedores;
 	
+	/**
+	 * Constroi os mapas de clientes e de fornecedores.
+	 */
 	public Sistema() {
 		this.clientes = new HashMap<>();
 		this.fornecedores = new HashMap<>();
 	}
 	
+	/**
+	 * Verifica se um cliente existe no mapa clientes a partir de seu cpf.
+	 * Retorna um boolean indicando true caso o cliente exista, caso contrario,
+	 * false.
+	 * 
+	 * @param cpf e o cpf do cliente a ser verificado se esta ligada a algum
+	 * cliente no mapa clientes.
+	 * @return retorna true caso cliente exista, false caso nao exista.
+	 */
 	private boolean existeCliente(String cpf) {
 		if(this.clientes.containsKey(cpf)) {
 			return true;
@@ -19,6 +47,15 @@ public class Sistema {
 		return false;
 	}
 	
+	/**
+	 * Verifica se um fornecedor existe no mapa fornecedores a partir de seu nome.
+	 * Retorna um boolean indicando true caso o fornecedor exista, caso contrario,
+	 * false.
+	 * 
+	 * @param nome e o nome do fornecedor a ser verificado se esta ligada a algum
+	 * fornecedor no mapa fornecedores.
+	 * @return retorna true caso fornecedor exista, false caso nao exista.
+	 */
 	private boolean existeFornecedor(String nome) {
 		if(this.fornecedores.containsKey(nome)) {
 			return true;
@@ -26,6 +63,21 @@ public class Sistema {
 		return false;
 	}
 	
+	/**
+	 * Verifica se um fornecedor possui um produto a partir do nome do produto e da
+	 * descricao do produto. Ao recuperar um Fornecedor no mapa fornecedores.
+	 * E passado ao metodo existeProduto de fornecedor um nome do produto e sua descricao.s 
+	 * Retorna um boolean indicando true caso o forneceor possuia aquele produto, caso
+	 * contrario, false.
+	 * 
+	 * @param fornecedor e o fornecedor no qual sera verificado o produto, atraves da
+	 * recuperacao de um Fornecedor no mapa fornecedores.
+	 * @param nome e o nome do produto a a ser verificado se esta ligada a algum
+	 * fornecedor do mapa fornecedores.
+	 * @param descricao e a descricao do produto a a ser verificado se esta ligada a algum
+	 * fornecedor do mapa fornecedores.
+	 * @return retorna true caso fornecedor exista, false caso nao exista.
+	 */
 	private boolean existeProduto(String fornecedor, String nome, String descricao) {
 		if(this.fornecedores.get(fornecedor).existeProduto(nome, descricao)) {
 			return true;
@@ -130,7 +182,7 @@ public class Sistema {
 		throw new IllegalArgumentException("Erro na exibicao do fornecedor: fornecedor nao existe.");
 	}
 	
-	public String listarFornecedores() {
+	public String listaFornecedores() {
 		String resultado = "";
 		if(!fornecedores.isEmpty()) {
 			Iterator<Fornecedor> it = fornecedores.values().iterator();
@@ -267,7 +319,7 @@ public class Sistema {
 		return "";
 	}
 	
-	public String removeProduto(String nome, String descricao, String fornecedor) {
+	public void removeProduto(String nome, String descricao, String fornecedor) {
 		if (nome == null || nome.equals(""))
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
 		if (descricao == null || descricao.equals(""))
@@ -282,6 +334,6 @@ public class Sistema {
 			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
-		return this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
+		this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 	}
 }

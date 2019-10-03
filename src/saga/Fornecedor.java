@@ -144,7 +144,7 @@ public class Fornecedor {
 				if (it.hasNext()) {
 					resultado += this.nome + " - " + elemento.toString() + " | ";
 				} else {
-					resultado += this.nome + " - " + it.next().toString();
+					resultado += this.nome + " - " + elemento.toString();
 				}
 			}
 		}

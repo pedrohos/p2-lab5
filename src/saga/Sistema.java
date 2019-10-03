@@ -222,7 +222,7 @@ public class Sistema {
 				if (it.hasNext()) {
 					resultado += elemento.toString() + " | ";
 				} else {
-					resultado += it.next().toString();
+					resultado += elemento.toString();
 				}
 			}
 		}
@@ -302,7 +302,7 @@ public class Sistema {
 	 */
 	public String exibeFornecedor(String nome) {
 		if (nome == null | nome.equals(""))
-			throw new IllegalArgumentException("Erro na exibicao do cliente: cpf nao pode ser vazio ou nulo.");
+			throw new IllegalArgumentException("Erro na exibicao do fornecedor: nome nao pode ser vazio ou nulo.");
 		if (this.existeFornecedor(nome)) {
 			return this.fornecedores.get(nome).toString();
 		}
@@ -324,7 +324,7 @@ public class Sistema {
 				if (it.hasNext()) {
 					resultado += elemento.toString() + " | ";
 				} else {
-					resultado += it.next().toString();
+					resultado += elemento.toString();
 				}
 			}
 		}
@@ -512,13 +512,17 @@ public class Sistema {
 	 */
 	public String listarProdutosTodosFornecedores () {
 		String resultado = "";
-		for (Fornecedor f: fornecedores.values()) {
-			if (!f.possuiProduto()) {
-				continue;
+		if(!fornecedores.isEmpty()) {
+			Iterator<Fornecedor> it = fornecedores.values().iterator();
+			while(it.hasNext()) {
+				Fornecedor elemento = it.next();
+				if (it.hasNext()) {
+					resultado += elemento.listarProdutos() + " | ";
+				} else {
+					resultado += elemento.listarProdutos();
+				}
 			}
-			resultado += f.listarProdutos();
 		}
-		
 		return resultado;
 	}
 	

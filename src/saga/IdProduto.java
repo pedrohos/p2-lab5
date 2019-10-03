@@ -35,7 +35,7 @@ public class IdProduto {
 	 */
 	@Override
 	public String toString() {
-		return nome + " - " + descricao;
+		return this.nome + " - " + this.descricao;
 	}
 
 	@Override

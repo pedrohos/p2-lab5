@@ -508,7 +508,7 @@ public class Sistema {
 	 * FORNECEDOR1 - NOME1 - DESCRICAO1 - R$X,XX | FORNECEDOR1 - NOME2 - DESCRICAO2 - R$Y,YY
 	 * FORNECEDORX - NOMEX - DESCRICAOX - R$Z,ZZ
 	 * 
-	 * @return
+	 * @return retorna todos os produtos de todos os fornecedores.
 	 */
 	public String listarProdutosTodosFornecedores () {
 		String resultado = "";

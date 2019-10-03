@@ -172,6 +172,7 @@ public class Saga {
 	 * Retorna uma String listando todos os produto de um fornecedor, recebido por
 	 * parametro.
 	 * 
+	 * @param fornecedor e o fornecedor que listara seus produtos.
 	 * @return retorna a representacao toString de todos os produtos de um fornecedor.
 	 */
 	public String listarProdutos(String fornecedor) {
@@ -197,9 +198,7 @@ public class Saga {
 	 * @param descricao e a descricao do produto.
 	 * @param fornecedor e o nome do fornecedor ao qual o produto sera verificado se
 	 * esta afiliado.
-	 * @param preco e o preco a ser editado no dado produto do fornecedor.
-	 * @return retorna o atributo que foi modificado caso a modificacao tenha
-	 * sido efetuada com sucesso.
+	 * @param valor e o preco a ser editado no dado produto do fornecedor.
 	 */
 	public void editaProduto(String nome, String descricao, String fornecedor, double valor) {
 		sistema.editaProduto(nome, descricao, fornecedor, valor);

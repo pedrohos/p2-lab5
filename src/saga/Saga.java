@@ -13,13 +13,15 @@ public class Saga {
 	/**
 	 * Representacao do sistema.
 	 */
-	private Sistema sistema;
+	private ControllerCliente controladorCliente;
+	private ControllerFornecedor controladorFornecedor;
 	
 	/**
 	 * Construtor instancia o sistema.
 	 */
 	public Saga() {
-		sistema = new Sistema();
+		this.controladorCliente = new ControllerCliente();
+		this.controladorFornecedor = new ControllerFornecedor();
 	}
 	
 	/**
@@ -34,7 +36,7 @@ public class Saga {
 	 * @return retorna o cpf do cliente.
 	 */
 	public String adicionaCliente(String cpf, String nome, String email, String localizacao) {
-		return sistema.adicionaCliente(cpf, nome, email, localizacao);
+		return controladorCliente.adicionaCliente(cpf, nome, email, localizacao);
 	}
 	
 	/**
@@ -44,7 +46,7 @@ public class Saga {
 	 * @return retorna a representacao toString do cliente.
 	 */
 	public String exibeCliente(String cpf) {
-		return sistema.exibeCliente(cpf);
+		return controladorCliente.exibeCliente(cpf);
 	}
 	
 	/**
@@ -61,7 +63,7 @@ public class Saga {
 	 * sido efetuada com sucesso.
 	 */
 	public String editaCliente(String cpf, String atributo, String valor) {
-		return sistema.editaCliente(cpf, atributo, valor);
+		return controladorCliente.editaCliente(cpf, atributo, valor);
 	}
 	
 	/**
@@ -70,7 +72,7 @@ public class Saga {
 	 * @return retorna a representacao toString de todos os clientes do sistema.
 	 */
 	public String listaClientes() {
-		return sistema.listaClientes();
+		return controladorCliente.listaClientes();
 	}
 	
 	/**
@@ -79,7 +81,7 @@ public class Saga {
 	 * @param cpf e o atributo que sera usado para identificar o cliente.
 	 */
 	public void removeCliente(String cpf) {
-		sistema.removeCliente(cpf);
+		controladorCliente.removeCliente(cpf);
 	}
 	
 	/**
@@ -93,7 +95,7 @@ public class Saga {
 	 * @return retorna o nome do fornecedor.
 	 */
 	public String adicionaFornecedor(String nome, String email, String telefone) {
-		return sistema.adicionaFornecedor(nome, email, telefone);
+		return controladorFornecedor.adicionaFornecedor(nome, email, telefone);
 	}
 	
 	/**
@@ -103,7 +105,7 @@ public class Saga {
 	 * @return retorna a representacao toString do fornecedor.
 	 */
 	public String exibeFornecedor(String nome) {
-		return sistema.exibeFornecedor(nome);
+		return controladorFornecedor.exibeFornecedor(nome);
 	}
 	
 	/**
@@ -112,7 +114,7 @@ public class Saga {
 	 * @return retorna a representacao toString de todos os fornecedores do sistema.
 	 */
 	public String listaFornecedores() {
-		return sistema.listaFornecedores();
+		return controladorFornecedor.listaFornecedores();
 	}
 	
 	/**
@@ -129,7 +131,7 @@ public class Saga {
 	 * sido efetuada com sucesso.
 	 */
 	public String editaFornecedor(String nome, String atributo, String valor) {
-		return sistema.editaFornecedor(nome, atributo, valor);
+		return controladorFornecedor.editaFornecedor(nome, atributo, valor);
 	}
 	
 	/**
@@ -138,7 +140,7 @@ public class Saga {
 	 * @param nome e o atributo que sera usado para identificar o fornecedor.
 	 */
 	public void removeFornecedor(String nome) {
-		sistema.removeFornecedor(nome);
+		controladorFornecedor.removeFornecedor(nome);
 	}
 	
 	/**
@@ -152,7 +154,7 @@ public class Saga {
 	 * @param preco e o telefone do fornecedor.
 	 */
 	public void adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
-		sistema.adicionaProduto(fornecedor, nome, descricao, preco);
+		controladorFornecedor.adicionaProduto(fornecedor, nome, descricao, preco);
 	}
 	
 	/**
@@ -165,7 +167,7 @@ public class Saga {
 	 * @return retorna a representacao toString do produto.
 	 */
 	public String exibeProduto(String fornecedor, String nome, String descricao) {
-		return sistema.exibeProduto(fornecedor, nome, descricao);
+		return controladorFornecedor.exibeProduto(fornecedor, nome, descricao);
 	}
 	
 	/**
@@ -176,7 +178,7 @@ public class Saga {
 	 * @return retorna a representacao toString de todos os produtos de um fornecedor.
 	 */
 	public String listarProdutos(String fornecedor) {
-		return sistema.listarProdutos(fornecedor);
+		return controladorFornecedor.listarProdutos(fornecedor);
 	}
 	
 	/**
@@ -185,7 +187,7 @@ public class Saga {
 	 * @return retorna a representacao toString de todos os produtos de todos os fornecedores.
 	 */
 	public String listarProdutosTodosFornecedores() {
-		return sistema.listarProdutosTodosFornecedores();
+		return controladorFornecedor.listarProdutosTodosFornecedores();
 	}
 	
 	/**
@@ -201,7 +203,7 @@ public class Saga {
 	 * @param valor e o preco a ser editado no dado produto do fornecedor.
 	 */
 	public void editaProduto(String nome, String descricao, String fornecedor, double valor) {
-		sistema.editaProduto(nome, descricao, fornecedor, valor);
+		controladorFornecedor.editaProduto(nome, descricao, fornecedor, valor);
 	}
 	
 	/**
@@ -213,7 +215,7 @@ public class Saga {
 	 * @param descricao e a descricao do produto a ser removido.
 	 */
 	public void removeProduto(String fornecedor, String nome, String descricao) {
-		sistema.removeProduto(fornecedor, nome, descricao);
+		controladorFornecedor.removeProduto(fornecedor, nome, descricao);
 	}
 	
 	public static void main(String[] args) {

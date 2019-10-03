@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * Representacao do Sistema SAGA.
  * O sistema adiciona, recupera, edita e apaga clientes e fornecedores.
- * E também adiciona, recupera, edita e apaga produtos que estao afiliados
+ * E tambï¿½m adiciona, recupera, edita e apaga produtos que estao afiliados
  * a determinado fornecedor.
  * 
  * @author Pedro Henrique

@@ -13,10 +13,7 @@ import java.util.Iterator;
  */
 public class Fornecedor {
 	
-	/**
-	 * Armazena no mapa de produtos o IdProduto de um produto, Produto.
-	 */
-	private HashMap<IdProduto, Produto> produtos;
+	private ControllerProduto controladorProduto;
 	
 	/**
 	 * Nome do fornecedor.
@@ -58,7 +55,7 @@ public class Fornecedor {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
 		}
 		
-		this.produtos = new HashMap<>();
+		this.controladorProduto = new ControllerProduto(nome);
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
@@ -76,8 +73,7 @@ public class Fornecedor {
 	 * false. 
 	 */
 	public boolean existeProduto(String nome, String descricao) {
-		IdProduto id = new IdProduto(nome, descricao);
-		if(produtos.containsKey(id)) {
+		if(controladorProduto.existeProduto(nome, descricao)) {
 			return true;
 		}
 		return false;
@@ -91,7 +87,7 @@ public class Fornecedor {
 	 * sera retornado false.
 	 */
 	public boolean possuiProduto() {
-		if (!produtos.isEmpty()) {
+		if (!controladorProduto.possuiProduto()) {
 			return true;
 		}
 		return false;
@@ -107,10 +103,14 @@ public class Fornecedor {
 	 * @param preco e o preco do produto.
 	 */
 	public void adicionaProduto(String nome, String descricao, double preco) {
-		IdProduto id = new IdProduto(nome, descricao);
-		if (!existeProduto(nome, descricao)) {
-			produtos.put(id, new Produto(nome, descricao, preco));
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
+		if (existeProduto(nome, descricao)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: produto ja existe.");
 		}
+		this.controladorProduto.adicionaProduto(nome, descricao, preco);
 	}
 	
 	/**
@@ -122,33 +122,29 @@ public class Fornecedor {
 	 * @return retorna a representacao toString do produto.
 	 */
 	public String exibeProduto(String nome, String descricao) {
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na exibicao de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
 		if (existeProduto(nome, descricao)) {
-			return this.produtos.get(new IdProduto(nome, descricao)).toString();
+			return this.controladorProduto.exibeProduto(nome, descricao);
 		}
 		throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
 		
 	}
 	
 	/**
-	 * Lista todos os produtos cadastrados, no formato:
+	 * Lista todos os produtos de um fornecedor no formato:
 	 * NOME1 - DESCRICAO1 - R$X,XX | NOME2 - DESCRICAO2 - R$X,XX | NOMEN - DESCRICAON - R$X,XX
 	 * 
-	 * @return retorna uma string listando todos os produtos.
+	 * Caso o fornecedor nao exista ser lancado um IllegalArgumentException:
+	 * "Erro na exibicao de produto: fornecedor nao existe."
+	 * 
+	 * @param fornecedor e o fornecedor no qual sera verificado listado todos os seus produtos.
+	 * @return retorna a representacao toString de todos os produtos.
 	 */
 	public String listarProdutos() {
-		String resultado = "";
-		if(!produtos.isEmpty()) {
-			Iterator<Produto> it = produtos.values().iterator();
-			while(it.hasNext()) {
-				Produto elemento = it.next();
-				if (it.hasNext()) {
-					resultado += this.nome + " - " + elemento.toString() + " | ";
-				} else {
-					resultado += this.nome + " - " + elemento.toString();
-				}
-			}
-		}
-		return resultado;
+		return this.controladorProduto.listarProdutos();
 	}
 	
 	/**
@@ -162,10 +158,17 @@ public class Fornecedor {
 	 * @param valor e o novo preco do produto que atualizara o atual.
 	 */
 	public void editaProduto(String nome, String descricao, double valor) {
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na edicao de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro na edicao de produto: descricao nao pode ser vazia ou nula.");
+		if (valor <= 0)
+			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
+	
 		if (!existeProduto(nome, descricao))
 			throw new IllegalArgumentException("Erro na edicao de produto: produto nao existe.");
 		
-		this.produtos.get(new IdProduto(nome, descricao)).setPreco(valor);
+		this.controladorProduto.editaProduto(nome, descricao, valor);
 	}
 	
 	/**
@@ -176,11 +179,20 @@ public class Fornecedor {
 	 * @param descricao e a descricao do produto que sera removido.
 	 */
 	public void removeProduto(String nome, String descricao) {
+		if (nome == null || nome.equals(""))
+			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
+		if (descricao == null || descricao.equals(""))
+			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
+	
 		if (!existeProduto(nome, descricao)) {
 			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
-		this.produtos.remove(new IdProduto(nome, descricao));
+		this.controladorProduto.removeProduto(nome, descricao);
+	}
+	
+	public String getNome() {
+		return this.nome;
 	}
 	
 	/**
@@ -237,4 +249,6 @@ public class Fornecedor {
 			return false;
 		return true;
 	}
+
+
 }

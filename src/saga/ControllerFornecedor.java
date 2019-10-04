@@ -3,7 +3,13 @@ package saga;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Representacao do controlador de fornecedores do sistema.
+ * 
+ * @author Pedro Henrique
+ */
 public class ControllerFornecedor {
+	
 	/**
 	 * Armazena no mapa de fornecedores o nome do Fornecedor, Fornecedor.
 	 */
@@ -21,7 +27,7 @@ public class ControllerFornecedor {
 	 * Retorna um boolean indicando true caso o fornecedor exista, caso contrario,
 	 * false.
 	 * 
-	 * @param nome e o nome do fornecedor a ser verificado se esta ligada a algum
+	 * @param nome e o nome do fornecedor a sera verificado se esta ligada a algum
 	 * fornecedor no mapa fornecedores.
 	 * @return retorna true caso fornecedor exista, false caso nao exista.
 	 */
@@ -66,19 +72,14 @@ public class ControllerFornecedor {
 	}
 	
 	/**
-	 * Retorna a representacao toString do fornecedor a partir de seu cpf, no formato:
+	 * Retorna a representacao toString do fornecedor a partir de seu nome, no formato:
 	 * NOME - EMAIL - TELEFONE
 	 * 
 	 * Caso o nome do fornecedor seja nulo ou vazio sera lancado um IllegalArgumentException:
 	 * "Erro na exibicao do fornecedor: nome nao pode ser vazio ou nulo."
-	 * Caso o fornecedor nao exista ser lancado um IllegalArgumentException:
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
 	 * "Erro na exibicao do fornecedor: fornecedor nao existe."
 	 * 
-	 * Caso o cpf seja nulo ou vazio sera lancado um IllegalArgumentException:
-	 * "Erro na exibicao do cliente: cpf nao pode ser vazio ou nulo."
-	 * Caso o cpf nao exista ser lancado um IllegalArgumentException:
-	 * "Erro na exibicao do cliente: cliente nao existe."
-	 * throw new IllegalArgumentException("Erro na exibicao do cliente: cpf nao pode ser vazio ou nulo.");
 	 * @param nome e o nome do fornecedor que sera utilizado para recuperar o fornecedor no mapa
 	 * fornecedores.
 	 * @return retorna a representacao toString do fornecedor.
@@ -115,9 +116,9 @@ public class ControllerFornecedor {
 	}
 	
 	/**
-	 * Permite a edicao do valor atual de um atributo do cliente, e atualizado com
+	 * Permite a edicao do valor atual de um atributo do fornecedor, e atualizado com
 	 *  um novo valor.
-	 * O nome e utilizado para recuperar o cliente no mapa clientes.
+	 * O nome e utilizado para recuperar o fornecedor no mapa fornecedores.
 	 * O valor do atributo indicado sera substituido pelo valor recebido por parametro.
 	 * Caso a edicao tenha sido efetuada com sucesso sera retornado o nome do atributo
 	 * que foi alterado. O nome nao pode ser alterado.
@@ -130,9 +131,9 @@ public class ControllerFornecedor {
 	 * "Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo."
 	 * Caso o nome tente ser alterado sera lancado um IllegalArgumentException:
 	 * "Erro na edicao do fornecedor: nome nao pode ser editado."
-	 * Caso o atributo nao exista ser lancado um IllegalArgumentException:
+	 * Caso o atributo nao exista sera lancado um IllegalArgumentException:
 	 * "Erro na edicao do fornecedor: atributo nao existe."
-	 * Caso o cpf nao remeta a nenhum fronecedor no mapa de clientes ser lancado um
+	 * Caso o nome nao remeta a nenhum fronecedor no mapa de clientes sera lancado um
 	 * IllegalArgumentException: "Erro na edicao do fornecedor: fornecedor nao existe."
 	 * 
 	 * @param nome e o nome do fornecedor que sera utilizado para recuperar o
@@ -171,7 +172,7 @@ public class ControllerFornecedor {
 	 * 
 	 * Caso o nome seja vazio ou nulo sera lancado um IllegalArgumentException:
 	 * "Erro na remocao do fornecedor: nome do fornecedor nao pode ser vazio ou nulo."
-	 * Caso o fornecedor nao exista ser lancado um IllegalArgumentException:
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
 	 * "Erro na remocao do fornecedor: fornecedor nao existe."
 	 * 
 	 * @param nome e atributo que ira identificar o fornecedor no mapa fornecedores.
@@ -190,7 +191,7 @@ public class ControllerFornecedor {
 	 * Lista todos os produtos de um fornecedor no formato:
 	 * NOME1 - DESCRICAO1 - R$X,XX | NOME2 - DESCRICAO2 - R$X,XX | NOMEN - DESCRICAON - R$X,XX
 	 * 
-	 * Caso o fornecedor nao exista ser lancado um IllegalArgumentException:
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
 	 * "Erro na exibicao de produto: fornecedor nao existe."
 	 * 
 	 * @param fornecedor e o fornecedor no qual sera verificado listado todos os seus produtos.
@@ -223,6 +224,19 @@ public class ControllerFornecedor {
 		return resultado;
 	}
 
+	/**
+	 * Adiciona um produto a um fornecedor do mapa fornecedores.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo."
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao existe."
+	 * 
+	 * @param fornecedor e o fornecedor no qual vai ter um produto associado a ele.
+	 * @param nome e o nome do produto que vai ser cadastrado.
+	 * @param descricao e a descricao do produto que vai ser cadastrado.
+	 * @param preco e o preco do produto que vai ser cadastrado.
+	 */
 	public void adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo.");
@@ -232,6 +246,21 @@ public class ControllerFornecedor {
 		this.fornecedores.get(fornecedor).adicionaProduto(nome, descricao, preco);
 	}
 
+	/**
+	 * Retorna representacao String do produto de um determinado fornecedor do mapa
+	 * fornecedores.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo."
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao existe."
+	 * 
+	 * @param fornecedor e o fornecedor no qual vai ter um produto associado a ele.
+	 * @param nome e o nome do produto que vai ser cadastrado.
+	 * @param descricao e a descricao do produto que vai ser cadastrado.
+	 * @return sera retornado a representacao toString daquele do produto indicado do
+	 * fornecedor indicado.
+	 */
 	public String exibeProduto(String nome, String descricao, String fornecedor) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao pode ser vazio ou nulo.");
@@ -241,6 +270,21 @@ public class ControllerFornecedor {
 		return this.fornecedores.get(fornecedor).exibeProduto(nome, descricao);
 	}
 
+	/**
+	 * Edita o preco de um determinado produto de um fornecedor do mapa fornecedores.
+	 * O fornecedor e o fornecedor que tera seu produto modificado, o nome e descricao
+	 * se referem as informacoes do produto e o preco e o novo valor do produto.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo."
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao existe."
+	 * 
+	 * @param fornecedor e o fornecedor no qual vai ter um produto associado a ele.
+	 * @param nome e o nome do produto que vai ser editado.
+	 * @param descricao e a descricao do produto que vai ser editado.
+	 * @param valor e o novo preco do produto.
+	 */
 	public void editaProduto(String nome, String descricao, String fornecedor, double valor) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao pode ser vazio ou nulo.");
@@ -250,6 +294,20 @@ public class ControllerFornecedor {
 		this.fornecedores.get(fornecedor).editaProduto(nome, descricao, valor);
 	}
 
+	/**
+	 * Remove um produto de um fornecedor.
+	 * O fornecedor identifica o fornecedor no mapa fornecedores.
+	 * O nome e descricao indentificam o produto do fornecedor.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo."
+	 * Caso o fornecedor nao exista sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: fornecedor nao existe."
+	 * 
+	 * @param fornecedor e o fornecedor no qual vai ter um produto associado a ele.
+	 * @param nome e o nome do produto que vai ser removido.
+	 * @param descricao e a descricao do produto que vai ser removido.
+	 */
 	public void removeProduto(String nome, String descricao, String fornecedor) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao pode ser vazio ou nulo.");

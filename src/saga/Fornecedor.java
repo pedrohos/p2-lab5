@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 /**
  * Representacao de um Fornecedor no sistema.
- * Todo cliente possui um nome (seu identificador unico), um email, um telefone
+ * Todo fornecedor possui um nome (seu identificador unico), um email, um telefone
  * e um mapa de produtos, IdProduto, Produto.
  * O IdProduto sera utilizado para reobter o Produto.
  * 
@@ -13,10 +13,14 @@ import java.util.Iterator;
  */
 public class Fornecedor {
 	
+	/**
+	 * Contolador de produtos, vai controlar e organizar os produtos
+	 * deste fornecedor.
+	 */
 	private ControllerProduto controladorProduto;
 	
 	/**
-	 * Nome do fornecedor.
+	 * Nome do fornecedor, e o identificado unico.
 	 */
 	private String nome;
 	
@@ -32,6 +36,7 @@ public class Fornecedor {
 	
 	/**
 	 * Constroi um novo fornecedor a partir de seu nome, email e telefone.
+	 * Além de criar um contolador de produtos com o nome do fornecedor.
 	 * 
 	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
 	 * "Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo."
@@ -80,8 +85,8 @@ public class Fornecedor {
 	}
 	
 	/**
-	 * Retorna true caso o fornecedor possuir algum produto cadastrado.
-	 * Caso nao possuir, sera retornado false.
+	 * Retorna true caso o fornecedor possua algum produto cadastrado.
+	 * Caso nao possua, sera retornado false.
 	 * 
 	 * @return retorna true caso o mapa produtos possua algum elemento, caso contrario,
 	 * sera retornado false.
@@ -94,9 +99,16 @@ public class Fornecedor {
 	}
 	
 	/**
-	 * Adiciona um produto ao mapa produtos a partir de um nome, decricao e preco.
+	 * Adiciona um produto ao mapa produtos a partir de um nome, descricao e preco.
 	 * Cria um id para o produto a partir de seu nome e descricao.
 	 * E atribui esse id ao produto construido.
+	 * 
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: nome nao pode ser vazio ou nulo."
+	 * Caso a descricao seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: descricao nao pode ser vazia ou nula."
+	 * Caso ja exista o produto sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro de produto: produto ja existe."
 	 * 
 	 * @param nome e nome do produto.
 	 * @param descricao e a descricao do produto.
@@ -117,6 +129,13 @@ public class Fornecedor {
 	 * Retorna o toString de um produto a partir de seu nome e descricao, no formato:
 	 * NOME - DESCRICAO - R$X,XX
 	 * 
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro na exibicao de produto: nome nao pode ser vazio ou nulo."
+	 * Caso a descricao seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro na exibicao de produto: descricao nao pode ser vazia ou nula."
+	 * Caso o produto nao exista sera lancado um IllegalArgumentException:
+	 * "Erro na exibicao de produto: produto nao existe."
+	 * 
 	 * @param nome e o nome do produto que sera pesquisado.
 	 * @param descricao e a descricao do produto que sera pesquisado.
 	 * @return retorna a representacao toString do produto.
@@ -134,14 +153,10 @@ public class Fornecedor {
 	}
 	
 	/**
-	 * Lista todos os produtos de um fornecedor no formato:
-	 * NOME1 - DESCRICAO1 - R$X,XX | NOME2 - DESCRICAO2 - R$X,XX | NOMEN - DESCRICAON - R$X,XX
+	 * Lista todos os produtos deste fornecedor no formato:
+	 * NOME1 - DESCRICAO1 - R$X,XX | NOME1 - DESCRICAO2 - R$X,XX | NOME1 - DESCRICAON - R$X,XX
 	 * 
-	 * Caso o fornecedor nao exista ser lancado um IllegalArgumentException:
-	 * "Erro na exibicao de produto: fornecedor nao existe."
-	 * 
-	 * @param fornecedor e o fornecedor no qual sera verificado listado todos os seus produtos.
-	 * @return retorna a representacao toString de todos os produtos.
+	 * @return retorna a representacao toString de todos os produtos deste fornecedor.
 	 */
 	public String listarProdutos() {
 		return this.controladorProduto.listarProdutos();
@@ -150,6 +165,12 @@ public class Fornecedor {
 	/**
 	 * Edita o valor de um produto a partir de seu nome e de sua descricao.
 	 * 
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro na edicao de produto: nome nao pode ser vazio ou nulo."
+	 * Caso a descricao seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro na edicao de produto: descricao nao pode ser vazia ou nula."
+	 * Caso o novo preco seja menor que ou igual a 0 sera lancado um IllegalArgumentException:
+	 * "Erro na edicao de produto: preco invalido."
 	 * Caso o produto nao exista sera lancado uma excecao IllegalArgumentException:
 	 * "Erro na edicao de produto: produto nao existe."
 	 * 
@@ -175,6 +196,13 @@ public class Fornecedor {
 	 * Remove um produto do mapa produtos a partir do nome do produto e
 	 * da descricao do produto.
 	 * 
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro na remocao de produto: nome nao pode ser vazio ou nulo."
+	 * Caso a descricao seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro na remocao de produto: descricao nao pode ser vazia ou nula."
+	 * Caso o produto nao exista sera lancado uma excecao IllegalArgumentException:
+	 * "Erro na remocao de produto: produto nao existe."
+	 * 
 	 * @param nome e o nome do produto que sera removido.
 	 * @param descricao e a descricao do produto que sera removido.
 	 */
@@ -189,10 +217,6 @@ public class Fornecedor {
 		}
 		
 		this.controladorProduto.removeProduto(nome, descricao);
-	}
-	
-	public String getNome() {
-		return this.nome;
 	}
 	
 	/**
@@ -214,7 +238,7 @@ public class Fornecedor {
 	}
 
 	/**
-	 * Retorna a representacao toString do Fornecedor, no formato:
+	 * Retorna a representacao String do Fornecedor, no formato:
 	 * NOME - EMAIL - TELEFONE
 	 */
 	@Override

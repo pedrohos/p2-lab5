@@ -48,7 +48,7 @@ public class IdProduto {
 	}
 
 	/**
-	 * Compara se dois ids sao iguais se, e somente se, seu nomes e
+	 * Compara se dois ids sao iguais se, e somente se, seus nomes e
 	 * descricoes forem iguais.
 	 */
 	@Override
@@ -72,6 +72,4 @@ public class IdProduto {
 			return false;
 		return true;
 	}
-	
-	
 }

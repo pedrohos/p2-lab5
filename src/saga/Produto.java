@@ -24,11 +24,17 @@ public class Produto {
 	 * Constroi um produto a partir do preco recebido e de um id que e gerado
 	 * a partir do nome do produto e da descricao do produto.
 	 * 
+	 * Caso o preco seja menor que ou igual a 0 sera lancado um IllegalArgumentException:
+	 * "Erro na criacao de produto: preco invalido."
+	 * 
 	 * @param nome e o nome que ira construir o id do produto.
 	 * @param descricao e a descricao que ira construir o id do produto.
 	 * @param preco e o preco do produto.
 	 */
 	public Produto(String nome, String descricao, double preco) {
+		if (preco <= 0) 
+			throw new IllegalArgumentException("Erro na criacao de produto: preco invalido.");
+		
 		this.id = new IdProduto(nome, descricao);
 		this.preco = preco;
 	}

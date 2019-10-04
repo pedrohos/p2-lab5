@@ -3,6 +3,13 @@ package saga;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Representacao do controlador de clientes do sistema.
+ * O controlador gerencia um conjunto de clientes do mapa
+ * cpf do cliente, Cliente.
+ * 
+ * @author Pedro Henrique
+ */
 public class ControllerCliente {
 	/**
 	 * Armazena no mapa de clientes o cpf do Cliente, Cliente.
@@ -10,7 +17,7 @@ public class ControllerCliente {
 	private HashMap<String, Cliente> clientes;
 	
 	/**
-	 * Constroi os mapas de clientes e de fornecedores.
+	 * Constroi os mapas de clientes.
 	 */
 	public ControllerCliente() {
 		this.clientes = new HashMap<>();

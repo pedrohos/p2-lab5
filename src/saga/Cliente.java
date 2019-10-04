@@ -1,7 +1,7 @@
 package saga;
 
 /**
- * Representacaoo do Cliente no sistema.
+ * Representacao do Cliente no sistema.
  * Todo cliente possui um cpf (identificador unico), nome, email e um local onde ele frenquenta (localizacao).
  * 
  * @author Pedro Henrique
@@ -40,6 +40,8 @@ public class Cliente {
 	 * "Erro no cadastro do cliente: email nao pode ser vazio ou nulo."
 	 * Caso a localizacao seja nula ou vazia sera lancado um IllegalArgumentException:
 	 * "Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula."
+	 * Caso o cpf nao possui 11 caracteres sera lancado um IllegalArgumentException:
+	 * "Erro no cadastro do cliente: cpf invalido."
 	 *  
 	 * @param cpf sera atribuido ao atributo cpf do cliente.
 	 * @param nome sera atribuido ao atributo nome do cliente.

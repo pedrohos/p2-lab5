@@ -6,7 +6,7 @@ package saga;
  * 
  * @author Pedro Henrique
  */
-public class Cliente {
+public class Cliente implements Comparable<Cliente> {
 	
 	/**
 	 * Cpf do cliente, e seu identificador unico.
@@ -105,6 +105,10 @@ public class Cliente {
 	public String toString() {
 		return this.nome + " - " + this.localizacao + " - " + this.email;
 	}
+	
+	public String getNome() {
+		return this.nome;
+	}
 
 	@Override
 	public int hashCode() {
@@ -132,5 +136,10 @@ public class Cliente {
 		} else if (!cpf.equals(other.cpf))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Cliente o) {
+		return this.nome.compareTo(o.nome);
 	}
 }

@@ -1,26 +1,15 @@
 package saga;
 
-import easyaccept.EasyAccept;
-
-/**
- * Representacao da fachada do sistema. O sistema consiste no controle de
- * Clientes, Fornecedores, e Produtos dos fornecedores.
- * 
- * @author Pedro Henrique
- */
-public class Saga {
-	/**
-	 * Representacao do sistema.
-	 */
-	private Sistema sistema;
-
-	/**
-	 * Construtor instancia o sistema.
-	 */
-	public Saga() {
-		this.sistema = new Sistema();
+public class Sistema {
+	
+	private ControllerCliente controladorCliente;
+	private ControllerFornecedor controladorFornecedor;
+	
+	public Sistema() {
+		controladorCliente = new ControllerCliente();
+		controladorFornecedor = new ControllerFornecedor();
 	}
-
+	
 	/**
 	 * Adiciona um cliente ao sistema. Chama o metodo adicionaCliente passando o
 	 * cpf, nome, email e localizacao. Se a adicao for efetuado com sucesso sera
@@ -33,7 +22,7 @@ public class Saga {
 	 * @return retorna o cpf do cliente.
 	 */
 	public String adicionaCliente(String cpf, String nome, String email, String localizacao) {
-		return sistema.adicionaCliente(cpf, nome, email, localizacao);
+		return controladorCliente.adicionaCliente(cpf, nome, email, localizacao);
 	}
 
 	/**
@@ -43,7 +32,7 @@ public class Saga {
 	 * @return retorna a representacao toString do cliente.
 	 */
 	public String exibeCliente(String cpf) {
-		return sistema.exibeCliente(cpf);
+		return controladorCliente.exibeCliente(cpf);
 	}
 
 	/**
@@ -60,7 +49,7 @@ public class Saga {
 	 *         efetuada com sucesso.
 	 */
 	public String editaCliente(String cpf, String atributo, String valor) {
-		return sistema.editaCliente(cpf, atributo, valor);
+		return controladorCliente.editaCliente(cpf, atributo, valor);
 	}
 
 	/**
@@ -69,7 +58,7 @@ public class Saga {
 	 * @return retorna a representacao toString de todos os clientes do sistema.
 	 */
 	public String exibeClientes() {
-		return sistema.exibeClientes();
+		return controladorCliente.exibeClientes();
 	}
 
 	/**
@@ -78,7 +67,7 @@ public class Saga {
 	 * @param cpf e o atributo que sera usado para identificar o cliente.
 	 */
 	public void removeCliente(String cpf) {
-		sistema.removeCliente(cpf);
+		controladorCliente.removeCliente(cpf);
 	}
 
 	/**
@@ -92,7 +81,7 @@ public class Saga {
 	 * @return retorna o nome do fornecedor.
 	 */
 	public String adicionaFornecedor(String nome, String email, String telefone) {
-		return sistema.adicionaFornecedor(nome, email, telefone);
+		return controladorFornecedor.adicionaFornecedor(nome, email, telefone);
 	}
 
 	/**
@@ -102,7 +91,7 @@ public class Saga {
 	 * @return retorna a representacao toString do fornecedor.
 	 */
 	public String exibeFornecedor(String nome) {
-		return sistema.exibeFornecedor(nome);
+		return controladorFornecedor.exibeFornecedor(nome);
 	}
 
 	/**
@@ -111,7 +100,7 @@ public class Saga {
 	 * @return retorna a representacao toString de todos os fornecedores do sistema.
 	 */
 	public String exibeFornecedores() {
-		return sistema.exibeFornecedores();
+		return controladorFornecedor.exibeFornecedores();
 	}
 
 	/**
@@ -128,7 +117,7 @@ public class Saga {
 	 *         efetuada com sucesso.
 	 */
 	public String editaFornecedor(String nome, String atributo, String valor) {
-		return sistema.editaFornecedor(nome, atributo, valor);
+		return controladorFornecedor.editaFornecedor(nome, atributo, valor);
 	}
 
 	/**
@@ -137,7 +126,7 @@ public class Saga {
 	 * @param nome e o atributo que sera usado para identificar o fornecedor.
 	 */
 	public void removeFornecedor(String nome) {
-		sistema.removeFornecedor(nome);
+		controladorFornecedor.removeFornecedor(nome);
 	}
 
 	/**
@@ -151,7 +140,7 @@ public class Saga {
 	 * @param preco      e o telefone do fornecedor.
 	 */
 	public void adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
-		sistema.adicionaProduto(fornecedor, nome, descricao, preco);
+		controladorFornecedor.adicionaProduto(fornecedor, nome, descricao, preco);
 	}
 
 	/**
@@ -164,7 +153,7 @@ public class Saga {
 	 * @return retorna a representacao toString do produto.
 	 */
 	public String exibeProduto(String fornecedor, String nome, String descricao) {
-		return sistema.exibeProduto(fornecedor, nome, descricao);
+		return controladorFornecedor.exibeProduto(fornecedor, nome, descricao);
 	}
 
 	/**
@@ -176,7 +165,7 @@ public class Saga {
 	 *         fornecedor.
 	 */
 	public String exibeProdutosFornecedor(String fornecedor) {
-		return sistema.exibeProdutosFornecedor(fornecedor);
+		return controladorFornecedor.exibeProdutos(fornecedor);
 	}
 
 	/**
@@ -186,7 +175,7 @@ public class Saga {
 	 *         fornecedores.
 	 */
 	public String exibeProdutos() {
-		return sistema.exibeProdutos();
+		return controladorFornecedor.exibeProdutos();
 	}
 
 	/**
@@ -202,7 +191,7 @@ public class Saga {
 	 * @param valor      e o preco a ser editado no dado produto do fornecedor.
 	 */
 	public void editaProduto(String nome, String descricao, String fornecedor, double valor) {
-		sistema.editaProduto(nome, descricao, fornecedor, valor);
+		controladorFornecedor.editaProduto(nome, descricao, fornecedor, valor);
 	}
 
 	/**
@@ -214,49 +203,84 @@ public class Saga {
 	 * @param descricao  e a descricao do produto a ser removido.
 	 */
 	public void removeProduto(String fornecedor, String nome, String descricao) {
-		sistema.removeProduto(fornecedor, nome, descricao);
+		controladorFornecedor.removeProduto(fornecedor, nome, descricao);
 	}
 	
 	public void adicionaCompra(String cpf, String fornecedor, String data, String nome, String descricao) {
-		sistema.adicionaCompra(cpf, fornecedor, data, nome, descricao);
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazio ou nulo.");
+		if (cpf.length() != 11)
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
+		if(!this.controladorCliente.existeCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cliente nao existe.");
+		}
+		
+		String cliente = this.controladorCliente.getNomeCliente(cpf);
+		this.controladorFornecedor.adicionaCompra(cpf, fornecedor, data, nome, descricao, cliente);
 	}
 	
 	public void adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
-		sistema.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
+		this.controladorFornecedor.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
 	}
-	
-	public void editaCombo(String nome, String descricao, String fornecedor, double fator) {
-		sistema.editaCombo(fornecedor, nome, descricao, fator);
+
+	public void editaCombo(String fornecedor, String nome, String descricao, double fator) {
+		controladorFornecedor.editaCombo(fornecedor, nome, descricao, fator);
 	}
-	
+
 	public String getDebito(String cpf, String fornecedor) {
-		return sistema.getDebito(cpf, fornecedor);
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf nao pode ser vazio ou nulo.");
+		if (cpf.length() != 11)
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf invalido.");
+		if (!this.controladorCliente.existeCliente(cpf))
+			throw new IllegalArgumentException("Erro ao recuperar debito: cliente nao existe.");
+		return controladorFornecedor.getDebito(cpf, fornecedor);
 	}
 	
 	public String exibeContas(String cpf, String fornecedor) {
-		return sistema.exibeContas(cpf, fornecedor);
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf nao pode ser vazio ou nulo.");
+		if (cpf.length() != 11)
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf invalido.");
+		if(!this.controladorCliente.existeCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cliente nao existe.");
+		}
+		
+		String cliente = this.controladorCliente.getNomeCliente(cpf);
+		return controladorFornecedor.exibeContas(cpf, fornecedor, cliente);
 	}
 	
 	public String exibeContasClientes(String cpf) {
-		return sistema.exibeContasClientes(cpf);
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf nao pode ser vazio ou nulo.");
+		if (cpf.length() != 11)
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf invalido.");
+		if(!this.controladorCliente.existeCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cliente nao existe.");
+		}
+		
+		String cliente = this.controladorCliente.getNomeCliente(cpf);
+		return controladorFornecedor.exibeContasClientes(cpf, cliente);
 	}
-	
+
 	public void realizaPagamento(String cpf, String fornecedor) {
-		sistema.realizaPagamento(cpf, fornecedor);
+		if (cpf == null || cpf.equals(""))
+			throw new IllegalArgumentException("Erro no pagamento de conta: cpf nao pode ser vazio ou nulo.");
+		if (cpf.length() != 11)
+			throw new IllegalArgumentException("Erro no pagamento de conta: cpf invalido.");
+		
+		if (!this.controladorCliente.existeCliente(cpf))
+			throw new IllegalArgumentException("Erro no pagamento de conta: cliente nao existe.");
+		
+		controladorFornecedor.realizaPagamento(cpf, fornecedor);
 	}
 	
 	public void ordenaPor(String criterio) {
-		sistema.ordenaPor(criterio);
-	}
-	
-	public String listarCompras() {
-		return sistema.listarCompras();
+		controladorFornecedor.ordenaPor(criterio);
 	}
 
-	public static void main(String[] args) {
-		args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt", "testes_aceitacao/use_case_2.txt",
-				"testes_aceitacao/use_case_3.txt", "testes_aceitacao/use_case_4.txt", "testes_aceitacao/use_case_6.txt",
-				"testes_aceitacao/use_case_5.txt", "testes_aceitacao/use_case_7.txt", "testes_aceitacao/use_case_8.txt" };
-		EasyAccept.main(args);
+	public String listarCompras() {
+		
+		return controladorFornecedor.listarCompras();
 	}
 }

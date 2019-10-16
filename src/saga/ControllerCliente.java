@@ -1,5 +1,7 @@
 package saga;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -32,7 +34,7 @@ public class ControllerCliente {
 	 * cliente no mapa clientes.
 	 * @return retorna true caso cliente exista, false caso nao exista.
 	 */
-	private boolean existeCliente(String cpf) {
+	public boolean existeCliente(String cpf) {
 		if(this.clientes.containsKey(cpf)) {
 			return true;
 		}
@@ -167,10 +169,16 @@ public class ControllerCliente {
 	 * 
 	 * @return retorna a representacao toString de todos os clientes do sistema.
 	 */
-	public String listaClientes() {
+	public String exibeClientes() {
 		String resultado = "";
 		if(!clientes.isEmpty()) {
-			Iterator<Cliente> it = clientes.values().iterator();
+			
+			ArrayList<Cliente> valores = new ArrayList<>();
+			for (Cliente c: clientes.values())
+				valores.add(c);
+			Collections.sort(valores);
+			
+			Iterator<Cliente> it = valores.iterator();
 			while(it.hasNext()) {
 				Cliente elemento = it.next();
 				if (it.hasNext()) {
@@ -201,5 +209,9 @@ public class ControllerCliente {
 			throw new IllegalArgumentException("Erro na remocao do cliente: cliente nao existe.");
 		}
 		clientes.remove(cpf);
+	}
+	
+	public String getNomeCliente(String cpf) {
+		return clientes.get(cpf).getNome();
 	}
 }

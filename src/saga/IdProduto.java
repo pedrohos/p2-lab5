@@ -1,27 +1,27 @@
 package saga;
 
 /**
- * Representacao do identificador unico de Produto.
- * E composto por um nome e uma descricao.
+ * Representacao do identificador unico de Produto. E composto por um nome e uma
+ * descricao.
  * 
  * @author Pedro Henrique
  */
 public class IdProduto {
-	
+
 	/**
 	 * Nome do produto que o identificara unicamente.
 	 */
 	private String nome;
-	
+
 	/**
 	 * Descricao do produto que o identificara unicamente.
 	 */
 	private String descricao;
-	
+
 	/**
 	 * Constroi um IdProduto com nome e descricao.
 	 * 
-	 * @param nome e o nome do produto.
+	 * @param nome      e o nome do produto.
 	 * @param descricao e a descricao do produto.
 	 */
 	public IdProduto(String nome, String descricao) {
@@ -29,15 +29,22 @@ public class IdProduto {
 		this.descricao = descricao;
 	}
 
+	public String getNome() {
+		return this.nome;
+	}
+
+	public String getDescricao() {
+		return this.descricao;
+	}
+
 	/**
-	 * Representacao toStringo do IdProduto, no formato:
-	 * NOME - DESCRICAO
+	 * Representacao toStringo do IdProduto, no formato: NOME - DESCRICAO
 	 */
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.descricao;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,10 +54,6 @@ public class IdProduto {
 		return result;
 	}
 
-	/**
-	 * Compara se dois ids sao iguais se, e somente se, seus nomes e
-	 * descricoes forem iguais.
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -72,4 +75,5 @@ public class IdProduto {
 			return false;
 		return true;
 	}
+
 }

@@ -9,14 +9,16 @@ import java.util.Locale;
 public class Conta {
 	private ArrayList<Compra> compras;
 	private String cliente;
+	private String fornecedor;
 	
-	public Conta(String cliente) {
+	public Conta(String cliente, String fornecedor) {
 		this.compras = new ArrayList<>();
 		this.cliente = cliente;
+		this.fornecedor = fornecedor;
 	}
 	
 	public void adicionaCompra(String data, String nome, String descricao, double preco) {
-		this.compras.add(new Compra(data, nome, descricao, preco));
+		this.compras.add(new Compra(data, nome, descricao, preco, this.cliente, this.fornecedor));
 	}
 	
 	public String getCliente() {

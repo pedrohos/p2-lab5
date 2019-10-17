@@ -276,11 +276,13 @@ public class Sistema {
 	}
 	
 	public void ordenaPor(String criterio) {
+		if (criterio == null || criterio.equals(""))
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
+		
 		controladorFornecedor.ordenaPor(criterio);
 	}
 
 	public String listarCompras() {
-		
 		return controladorFornecedor.listarCompras();
 	}
 }

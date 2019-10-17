@@ -12,6 +12,8 @@ import java.util.Iterator;
  */
 public class ControllerFornecedor {
 
+	private Criterio criterio;
+	
 	/**
 	 * Armazena no mapa de fornecedores o nome do Fornecedor, Fornecedor.
 	 */
@@ -444,10 +446,23 @@ public class ControllerFornecedor {
 	}
 
 	public void ordenaPor(String criterio) {
-		
+		switch (criterio) {
+			case "Cliente":
+				this.criterio = new OrdenaCliente();
+			case "Fornecedor":
+				this.criterio = new OrdenaFornecedor();
+			case "Compra":
+				this.criterio = new OrdenaCompra();
+			break;
+		default:
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
+		}
 	}
 
 	public String listarCompras() {
-		return "";
+		if (criterio == null)
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio ainda nao definido pelo sistema.");
+		
+		Collections.sort(this.fornecedores. ,);
 	}
 }

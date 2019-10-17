@@ -22,7 +22,7 @@ public class ControllerConta {
 	}
 	
 	private void criaConta(String cpf, String cliente) {
-		this.contasCliente.put(cpf, new Conta(cliente));
+		this.contasCliente.put(cpf, new Conta(cliente, this.fornecedor));
 	}
 	
 	public void adicionaCompra(String cpf, String data, String nome, String descricao, String cliente, double preco) {

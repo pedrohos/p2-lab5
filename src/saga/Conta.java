@@ -48,4 +48,10 @@ public class Conta {
 		}
 		return resultado;
 	}
+	
+	public ArrayList<Compra> retornaCompras() {
+		ArrayList<Compra> compras = new ArrayList<>();
+		compras = this.compras;
+		return compras;
+	}
 }

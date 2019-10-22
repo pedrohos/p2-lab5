@@ -78,4 +78,14 @@ public class ControllerConta {
 		
 		this.contasCliente.remove(cpf);
 	}
+
+	public ArrayList<Compra> retornaCompras() {
+		ArrayList<Compra> compras = new ArrayList<>();
+		for (Conta contas: contasCliente.values()) {
+			for (Compra compra: contas.retornaCompras()) {
+				compras.add(compra);
+			}
+		}
+		return compras;
+	}
 }

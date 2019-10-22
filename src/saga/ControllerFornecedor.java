@@ -348,6 +348,18 @@ public class ControllerFornecedor {
 		this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 	}
 	
+	/**
+	 * Adiciona um compra na conta de um cliente em dado fornecedor.
+	 * A compra e referente a um produto (que possui nome e descricao) e possui
+	 * data, todos esse dados sao registrados na compra.
+	 * 
+	 * @param cpf e o cpf do cliente que efetuou a compra.
+	 * @param fornecedor e o nome do fornecedor que 
+	 * @param data e a data da compra.
+	 * @param nome e o nome do produto.
+	 * @param descricao e a descricao do produto.
+	 * @param cliente e o cliente que efetuou a compra.
+	 */
 	public void adicionaCompra(String cpf, String fornecedor, String data, String nome, String descricao, String cliente) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
@@ -357,6 +369,17 @@ public class ControllerFornecedor {
 		this.fornecedores.get(fornecedor).adicionaCompra(cpf, data, nome, descricao, cliente);
 	}
 	
+	/**
+	 * Cadastra um combo em determinado fornecedor.
+	 * O combo e identificado pelo e nome e descricao e possui um fator que representa
+	 * o desconto, além de uma lista de produtos que indicam os produtos que formam este combo.
+	 * 
+	 * @param fornecedor e o fornecedor que tera o combo cadastrado.
+	 * @param nome e o nome do combo que sera cadastrado.
+	 * @param descricao e a descricoa do combo que sera cadastrado.
+	 * @param fator e o fator que representa o desconto do combo.
+	 * @param produtos e a lista de produtos que formam o combo.
+	 */
 	public void adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
@@ -366,6 +389,14 @@ public class ControllerFornecedor {
 		this.fornecedores.get(fornecedor).adicionaCombo(nome, descricao, fator, produtos);
 	}
 
+	/**
+	 * Edita o fator de um combo de um fornecedor a partir do nome e descricao do combo.
+	 * 
+	 * @param fornecedor e o fornecedor que tera o combo cadastrado.
+	 * @param nome e o nome do combo que sera cadastrado.
+	 * @param descricao e a descricoa do combo que sera cadastrado.
+	 * @param fator e o novo fator que representa o desconto do combo.
+	 */
 	public void editaCombo(String fornecedor, String nome, String descricao, double fator) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro na edicao de combo: fornecedor nao pode ser vazio ou nulo.");
@@ -375,6 +406,13 @@ public class ControllerFornecedor {
 		this.fornecedores.get(fornecedor).editaCombo(nome, descricao, fator);
 	}
 
+	/**
+	 * Retorna o debito que um cliente tem com um dado fornecedor. 
+	 * 
+	 * @param cpf e o cpf do cliente.
+	 * @param fornecedor o nome do fornecedor.
+	 * @return e retornado o debito do cliente e fornecedor.
+	 */
 	public String getDebito(String cpf, String fornecedor) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao pode ser vazio ou nulo.");
@@ -458,11 +496,24 @@ public class ControllerFornecedor {
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
 		}
 	}
+	
+	private ArrayList<Compra> processaCompras() {
+		ArrayList<Compra> compras = new ArrayList<>();
+		for (Fornecedor f: fornecedores.values()) {
+			for (Compra compra: f.retornaCompras()) {
+				compras.add(compra);
+			}
+		}
+		return compras;
+	}
 
 	public String listarCompras() {
 		if (criterio == null)
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio ainda nao definido pelo sistema.");
 		
-		Collections.sort(this.fornecedores. ,);
+		ArrayList<Compra> compras = processaCompras();
+		Collections.sort(compras, criterio);
+		
+		return criterio.listaCompras(compras);
 	}
 }

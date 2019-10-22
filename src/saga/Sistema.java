@@ -1,15 +1,15 @@
 package saga;
 
 public class Sistema {
-	
+
 	private ControllerCliente controladorCliente;
 	private ControllerFornecedor controladorFornecedor;
-	
+
 	public Sistema() {
 		controladorCliente = new ControllerCliente();
 		controladorFornecedor = new ControllerFornecedor();
 	}
-	
+
 	/**
 	 * Adiciona um cliente ao sistema. Chama o metodo adicionaCliente passando o
 	 * cpf, nome, email e localizacao. Se a adicao for efetuado com sucesso sera
@@ -205,28 +205,67 @@ public class Sistema {
 	public void removeProduto(String fornecedor, String nome, String descricao) {
 		controladorFornecedor.removeProduto(fornecedor, nome, descricao);
 	}
-	
+
+	/**
+	 * Adiciona uma compra a um Conta de um cliente em determinado fornecedor. A
+	 * compra é identificada por um produto (que possui nome e descrição) e também
+	 * possui uma data, o fornecedor é identificado pelo seu nome e a Conta do
+	 * cliente é identificada pelo seu cpf.
+	 * 
+	 * @param cpf        e o cpf do cliente que identifica sua Conta.
+	 * @param fornecedor e o fornecedor que possui as contas os clientes.
+	 * @param data       e a data que foi realizada a compra.
+	 * @param nome       e o nome do produto.
+	 * @param descricao  e a descricao do produto.
+	 */
 	public void adicionaCompra(String cpf, String fornecedor, String data, String nome, String descricao) {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazio ou nulo.");
 		if (cpf.length() != 11)
 			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
-		if(!this.controladorCliente.existeCliente(cpf)) {
+		if (!this.controladorCliente.existeCliente(cpf)) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: cliente nao existe.");
 		}
-		
+
 		String cliente = this.controladorCliente.getNomeCliente(cpf);
 		this.controladorFornecedor.adicionaCompra(cpf, fornecedor, data, nome, descricao, cliente);
 	}
-	
+
+	/**
+	 * Adiciona uma combo que um fornecedor oferece. O combo e identificado por um
+	 * nome e descrição e possui um fator que representa o desconto.
+	 * 
+	 * @param fornecedor e o fornecedor que possui as contas os clientes.
+	 * @param nome       e o nome do produto.
+	 * @param descricao  e a descricao do produto
+	 * @param fator      e o fator do desconto.
+	 * @param produtos   lista de produtos a serem adicionados.
+	 */
 	public void adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		this.controladorFornecedor.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
 	}
 
+	/**
+	 * Edita o fator de um combo de um fornecedor. O fornecedor e identificado por
+	 * seu nome, o combo e identificado pelo nome e descricao e novo fator e
+	 * passado.
+	 * 
+	 * @param nome
+	 * @param descricao
+	 * @param fornecedor
+	 * @param fator
+	 */
 	public void editaCombo(String fornecedor, String nome, String descricao, double fator) {
 		controladorFornecedor.editaCombo(fornecedor, nome, descricao, fator);
 	}
 
+	/**
+	 * Recupera o debito que um cliente tem com um fornecedor.
+	 * 
+	 * @param cpf        e o cpf que identificado o cliente.
+	 * @param fornecedor e o nome que identifica o fornecedor.
+	 * @return e retornado o debito.
+	 */
 	public String getDebito(String cpf, String fornecedor) {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro ao recuperar debito: cpf nao pode ser vazio ou nulo.");
@@ -236,49 +275,70 @@ public class Sistema {
 			throw new IllegalArgumentException("Erro ao recuperar debito: cliente nao existe.");
 		return controladorFornecedor.getDebito(cpf, fornecedor);
 	}
-	
+
+	/**
+	 * Exibe todas as compras de um cliente de fornecedor.
+	 * 
+	 * @param cpf        e o cpf que identifica o cliente.
+	 * @param fornecedor e o nome que identifica o fornecedor.
+	 * @return e retornado a representacao de todas as compras do cliente do dado
+	 *         fornecedor.
+	 */
 	public String exibeContas(String cpf, String fornecedor) {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf nao pode ser vazio ou nulo.");
 		if (cpf.length() != 11)
 			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf invalido.");
-		if(!this.controladorCliente.existeCliente(cpf)) {
+		if (!this.controladorCliente.existeCliente(cpf)) {
 			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cliente nao existe.");
 		}
-		
+
 		String cliente = this.controladorCliente.getNomeCliente(cpf);
 		return controladorFornecedor.exibeContas(cpf, fornecedor, cliente);
 	}
-	
+
+	/**
+	 * Exibe todas as compras que um cliente possui em todos os fornecedores.
+	 * 
+	 * @param cpf e o cpf que identifica o cleinte.
+	 * @return e retornado a representacao de todas as compras do cliente.
+	 */
 	public String exibeContasClientes(String cpf) {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf nao pode ser vazio ou nulo.");
 		if (cpf.length() != 11)
 			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf invalido.");
-		if(!this.controladorCliente.existeCliente(cpf)) {
+		if (!this.controladorCliente.existeCliente(cpf)) {
 			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cliente nao existe.");
 		}
-		
+
 		String cliente = this.controladorCliente.getNomeCliente(cpf);
 		return controladorFornecedor.exibeContasClientes(cpf, cliente);
 	}
 
+	/**
+	 * Efetua o pagamento de todas as compras de um cliente em um dado fornecedor.
+	 * 
+	 * 
+	 * @param cpf e o cpf que identifica o cliente.
+	 * @param fornecedor e o nome que identifica o fornecedor.
+	 */
 	public void realizaPagamento(String cpf, String fornecedor) {
 		if (cpf == null || cpf.equals(""))
 			throw new IllegalArgumentException("Erro no pagamento de conta: cpf nao pode ser vazio ou nulo.");
 		if (cpf.length() != 11)
 			throw new IllegalArgumentException("Erro no pagamento de conta: cpf invalido.");
-		
+
 		if (!this.controladorCliente.existeCliente(cpf))
 			throw new IllegalArgumentException("Erro no pagamento de conta: cliente nao existe.");
-		
+
 		controladorFornecedor.realizaPagamento(cpf, fornecedor);
 	}
-	
+
 	public void ordenaPor(String criterio) {
 		if (criterio == null || criterio.equals(""))
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
-		
+
 		controladorFornecedor.ordenaPor(criterio);
 	}
 

@@ -211,6 +211,12 @@ public class ControllerCliente {
 		clientes.remove(cpf);
 	}
 	
+	/**
+	 * Recupera o nome de um dado cliente a partir de seu cpf.
+	 * 
+	 * @param cpf e o cpf do cliente cujo nome sera recuperado.
+	 * @return e retornado o nome do cliente cujo cpf foi recebido.
+	 */
 	public String getNomeCliente(String cpf) {
 		return clientes.get(cpf).getNome();
 	}

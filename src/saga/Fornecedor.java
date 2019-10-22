@@ -1,5 +1,6 @@
 package saga;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -300,6 +301,10 @@ public class Fornecedor implements Comparable<Fornecedor> {
 			throw new IllegalArgumentException("Erro na edicao de combo: produto nao existe.");
 		
 		this.controladorProduto.editaCombo(nome, descricao, fator);
+	}
+	
+	public ArrayList<Compra> retornaCompras() {
+		return controladorConta.retornaCompras();
 	}
 
 	@Override

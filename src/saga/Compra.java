@@ -36,10 +36,6 @@ public class Compra {
 	public double getPreco() {
 		return this.preco;
 	}
-	
-	public String getNomeCompleto() {
-		return this.nome + " " + this.descricao;
-	}
 
 	@Override
 	public String toString() {

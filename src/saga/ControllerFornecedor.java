@@ -487,13 +487,15 @@ public class ControllerFornecedor {
 		switch (criterio) {
 			case "Cliente":
 				this.criterio = new OrdenaCliente();
+				break;
 			case "Fornecedor":
 				this.criterio = new OrdenaFornecedor();
-			case "Compra":
+				break;
+			case "Data":
 				this.criterio = new OrdenaCompra();
-			break;
-		default:
-			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
+				break;
+			default:
+				throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
 		}
 	}
 	

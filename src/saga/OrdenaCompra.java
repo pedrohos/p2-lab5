@@ -35,9 +35,9 @@ public class OrdenaCompra implements Criterio  {
 		while(it.hasNext()) {
 			Compra compra = it.next();
 			if (it.hasNext()) {
-				resultado += String.format("%s, %s, %s, %s", compra.getData(), compra.getFornecedor(), compra.getNomeCompleto(),compra.getData()) + " | ";
+				resultado += String.format("%s, %s, %s, %s", compra.getData().replace("-", "/"), compra.getCliente(), compra.getFornecedor(), compra.getDescricao()) + " | ";
 			} else {
-				resultado += String.format("%s, %s, %s, %s", compra.getData(), compra.getFornecedor(), compra.getNomeCompleto(),compra.getData());
+				resultado += String.format("%s, %s, %s, %s", compra.getData().replace("-", "/"), compra.getCliente(), compra.getFornecedor(), compra.getDescricao());
 			}
 		}
 		return resultado;

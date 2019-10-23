@@ -21,9 +21,9 @@ public class OrdenaCliente implements Criterio  {
 		while(it.hasNext()) {
 			Compra compra = it.next();
 			if (it.hasNext()) {
-				resultado += String.format("%s, %s, %s, %s", compra.getCliente(), compra.getFornecedor(), compra.getNomeCompleto(),compra.getData()) + " | ";
+				resultado += String.format("%s, %s, %s, %s", compra.getCliente(), compra.getFornecedor(), compra.getDescricao(),compra.getData().replace("-", "/")) + " | ";
 			} else {
-				resultado += String.format("%s, %s, %s, %s", compra.getCliente(), compra.getFornecedor(), compra.getNomeCompleto(),compra.getData());
+				resultado += String.format("%s, %s, %s, %s", compra.getCliente(), compra.getFornecedor(), compra.getDescricao(),compra.getData().replace("-", "/"));
 			}
 		}
 		return resultado;

@@ -21,9 +21,9 @@ public class OrdenaFornecedor implements Criterio {
 		while(it.hasNext()) {
 			Compra compra = it.next();
 			if (it.hasNext()) {
-				resultado += String.format("%s, %s, %s, %s", compra.getFornecedor(), compra.getCliente(), compra.getNomeCompleto(),compra.getData()) + " | ";
+				resultado += String.format("%s, %s, %s, %s", compra.getFornecedor(), compra.getCliente(), compra.getDescricao(),compra.getData().replace("-", "/")) + " | ";
 			} else {
-				resultado += String.format("%s, %s, %s, %s", compra.getFornecedor(), compra.getCliente(), compra.getNomeCompleto(),compra.getData());
+				resultado += String.format("%s, %s, %s, %s", compra.getFornecedor(), compra.getCliente(), compra.getDescricao(),compra.getData().replace("-", "/"));
 			}
 		}
 		return resultado;

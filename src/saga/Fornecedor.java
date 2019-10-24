@@ -2,8 +2,6 @@ package saga;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Representacao de um Fornecedor no sistema. Todo fornecedor possui um nome
@@ -15,11 +13,14 @@ import java.util.Iterator;
 public class Fornecedor implements Comparable<Fornecedor> {
 
 	/**
-	 * Contolador de produtos, vai controlar e organizar os produtos deste
+	 * Controlador de produtos, vai controlar e organizar os produtos deste
 	 * fornecedor.
 	 */
 	private ControllerProduto controladorProduto;
-	
+
+	/**
+	 * Controlador das contas do cliente.
+	 */
 	private ControllerConta controladorConta;
 
 	/**
@@ -216,41 +217,32 @@ public class Fornecedor implements Comparable<Fornecedor> {
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
 		if (descricao == null || descricao.equals(""))
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
-
 		if (!existeProduto(nome, descricao)) {
 			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 
 		this.controladorProduto.removeProduto(nome, descricao);
 	}
-	
+
+	/**
+	 * Recupera o preco do produto a partir de seu nome e descricao.
+	 * 
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro na remocao de produto: nome nao pode ser vazio ou nulo." Caso a
+	 * descricao seja nula ou vazia sera lancado um IllegalArgumentException: "Erro
+	 * na remocao de produto: descricao nao pode ser vazia ou nula."
+	 * 
+	 * @param nome      e o nome do produto.
+	 * @param descricao e a descricao do produto.
+	 * @return e retornado o preco do produto.
+	 */
 	private double getPrecoProduto(String nome, String descricao) {
 		if (nome == null || nome.equals(""))
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
 		if (descricao == null || descricao.equals(""))
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
 
-		
-
 		return this.controladorProduto.getPrecoProduto(nome, descricao);
-	}
-
-	/**
-	 * Modifica o atributo email pelo valor recebido.
-	 * 
-	 * @param valor e o valor que sera adicionado no atributo email.
-	 */
-	public void setEmail(String valor) {
-		this.email = valor;
-	}
-
-	/**
-	 * Modifica o atributo telefone pelo valor recebido.
-	 * 
-	 * @param valor e o valor que sera adicionado no atributo telefone.
-	 */
-	public void setTelefone(String valor) {
-		this.telefone = valor;
 	}
 
 	/**
@@ -261,12 +253,34 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	public String toString() {
 		return nome + " - " + email + " - " + telefone;
 	}
-	
+
+	/**
+	 * Adiciona uma nova compra ao controlador de contas. Passando o cpf cliente que
+	 * efetuou a compra, o nome e descricao do produto da compra e o nome do
+	 * cliente.
+	 * 
+	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
+	 * "Erro ao cadastrar compra: nome do produto nao pode ser vazio ou nulo." Caso
+	 * a descricao seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro ao cadastrar compra: descricao do produto nao pode ser vazia ou nula."
+	 * Caso a data seja nula ou vazia sera lancado um IllegalArgumentException:
+	 * "Erro ao cadastrar compra: data nao pode ser vazia ou nula." Caso o produto
+	 * nao eixta sera lancado um IllegalArgumentException: "Erro ao cadastrar
+	 * compra: produto nao existe." Caso a data seja invalida sera lancado um
+	 * IllegalArgumentException: "Erro ao cadastrar compra: data invalida."
+	 * 
+	 * @param cpf       e o cpf do cliente.
+	 * @param data      e a data da compra.
+	 * @param nome      e o nome do produto da compra.
+	 * @param descricao e a descricao do produto da compra.
+	 * @param cliente   e o cliente que efetuou a compra.
+	 */
 	public void adicionaCompra(String cpf, String data, String nome, String descricao, String cliente) {
 		if (nome == null || nome.equals(""))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: nome do produto nao pode ser vazio ou nulo.");
 		if (descricao == null || descricao.equals(""))
-			throw new IllegalArgumentException("Erro ao cadastrar compra: descricao do produto nao pode ser vazia ou nula.");
+			throw new IllegalArgumentException(
+					"Erro ao cadastrar compra: descricao do produto nao pode ser vazia ou nula.");
 		if (data == null || data.equals(""))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: data nao pode ser vazia ou nula.");
 		if (!existeProduto(nome, descricao))
@@ -280,18 +294,42 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		} catch (ArrayIndexOutOfBoundsException aiobe) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: data invalida.");
 		}
-		if (dia <= 0 || dia > 31 || mes <= 0 || mes > 12 || ano <= 1900 || ano > Calendar.getInstance().get(Calendar.YEAR))
+		if (dia <= 0 || dia > 31 || mes <= 0 || mes > 12 || ano <= 1900
+				|| ano > Calendar.getInstance().get(Calendar.YEAR))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: data invalida.");
-		
+
 		data = data.replace("/", "-");
 		double preco = this.getPrecoProduto(nome, descricao);
 		this.controladorConta.adicionaCompra(cpf, data, nome, descricao, cliente, preco);
 	}
-	
+
+	/**
+	 * Adiciona um combo ao controlador de produtos. O combo possui um nome,
+	 * descricao, fator e uma lista de produtos que o compoe.
+	 * 
+	 * @param nome      e o nome do combo.
+	 * @param descricao e a descricao do combo.
+	 * @param fator     e o fator de desconto do combo.
+	 * @param produtos  e a lista de produtos que compoem o combo.
+	 */
 	public void adicionaCombo(String nome, String descricao, double fator, String produtos) {
 		this.controladorProduto.adicionaCombo(nome, descricao, fator, produtos);
 	}
-	
+
+	/**
+	 * Edita o fator de um combo a partir do nome e descricao do combo e o novo
+	 * fator.
+	 * 
+	 * Caso o nome seja nulo ou vazio sera lancada uma excecao: "Erro na edicao de
+	 * combo: nome nao pode ser vazio ou nulo." Caso a descricao seja nulo ou vazio
+	 * sera lancada uma excecao: "Erro na edicao de combo: descricao nao pode ser
+	 * vazia ou nula." Caso o produto nao exista sera lancada uma excecao: "Erro na
+	 * edicao de combo: produto nao existe."
+	 * 
+	 * @param nome      e o nome do combo.
+	 * @param descricao e a descricao do combo.
+	 * @param fator     e o novo fator do combo.
+	 */
 	public void editaCombo(String nome, String descricao, double fator) {
 		if (nome == null || nome.equals(""))
 			throw new IllegalArgumentException("Erro na edicao de combo: nome nao pode ser vazio ou nulo.");
@@ -299,12 +337,39 @@ public class Fornecedor implements Comparable<Fornecedor> {
 			throw new IllegalArgumentException("Erro na edicao de combo: descricao nao pode ser vazia ou nula.");
 		if (!existeProduto(nome, descricao))
 			throw new IllegalArgumentException("Erro na edicao de combo: produto nao existe.");
-		
+
 		this.controladorProduto.editaCombo(nome, descricao, fator);
 	}
-	
+
+	/**
+	 * Retorna as compras do controlador de contas.
+	 * 
+	 * @return retorna todas as compras do controlador de contas.
+	 */
 	public ArrayList<Compra> retornaCompras() {
 		return controladorConta.retornaCompras();
+	}
+
+	/**
+	 * Retorna o debito que um cliente possui neste fornecedor.
+	 * 
+	 * @param cpf e o cpf do cliente.
+	 * @return e retornado o debito do cliente.
+	 */
+	public String getDebito(String cpf) {
+		return this.controladorConta.getDebitoCliente(cpf);
+	}
+
+	public String getNome() {
+		return this.nome;
+	}
+
+	public void setEmail(String valor) {
+		this.email = valor;
+	}
+
+	public void setTelefone(String valor) {
+		this.telefone = valor;
 	}
 
 	@Override
@@ -340,22 +405,32 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		return this.nome.compareTo(o.nome);
 	}
 
-	public String getDebito(String cpf) {
-		return this.controladorConta.getDebitoCliente(cpf);
-	}
-	
-	public String getNome() {
-		return this.nome;
-	}
-
+	/**
+	 * Exibe todas as contas que um cliente possui neste fornecedor.
+	 * 
+	 * @param cpf e o cpf do cliente.
+	 * @return e retornada uma String com a representacao de todas as contas de um
+	 *         cliente.
+	 */
 	public String exibeContas(String cpf) {
 		return this.controladorConta.exibeContas(cpf);
 	}
 
+	/**
+	 * Retorna se o fornecedor possui conta com determinado cliente.
+	 * 
+	 * @param cpf e o cpf do cliente.
+	 * @return e retornado um boolean se existe ou nao uma conta neste fornecedor.
+	 */
 	public boolean possuiConta(String cpf) {
 		return this.controladorConta.existeConta(cpf);
 	}
 
+	/**
+	 * Realiza o pagamento das contas de um cliente.
+	 * 
+	 * @param cpf e o cpf de um cliente.
+	 */
 	public void realizaPagamento(String cpf) {
 		this.controladorConta.realizaPagamento(cpf);
 	}

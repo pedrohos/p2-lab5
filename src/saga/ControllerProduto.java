@@ -3,7 +3,6 @@ package saga;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -15,6 +14,9 @@ import java.util.Iterator;
  */
 public class ControllerProduto {
 
+	/**
+	 * Armazena o nome do fornecedor que possui este controlador.
+	 */
 	private String fornecedor;
 
 	/**
@@ -46,7 +48,7 @@ public class ControllerProduto {
 	 */
 	public boolean existeProduto(String nome, String descricao) {
 		IdProduto id = new IdProduto(nome, descricao);
-		for(IdProduto chaves: produtos.keySet()) {
+		for (IdProduto chaves : produtos.keySet()) {
 			if (chaves.equals(id)) {
 				return true;
 			}
@@ -108,7 +110,7 @@ public class ControllerProduto {
 			throw new IllegalArgumentException("Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
 		if (!existeProduto(nome, descricao))
 			throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
-		
+
 		return this.produtos.get(new IdProduto(nome, descricao)).toString();
 	}
 
@@ -184,7 +186,7 @@ public class ControllerProduto {
 	 * FORNECEDOR - NOME1 - DESCRICAO1 - R$X,XX | FORNECEDOR - NOME2 - DESCRICAO2 -
 	 * R$Y,YY | FORNECEDOR - NOMEN - DESCRICAON - R$X,XX |
 	 * 
-	 * @return
+	 * @return e retornado a representacao de todos os produtos no padrao acima.
 	 */
 	public String listarProdutos() {
 		String resultado = "";
@@ -195,7 +197,7 @@ public class ControllerProduto {
 		Collections.sort(valores);
 
 		Iterator<Produto> it = valores.iterator();
-		if(!it.hasNext()) {
+		if (!it.hasNext()) {
 			return this.fornecedor + " -";
 		}
 		while (it.hasNext()) {
@@ -209,19 +211,29 @@ public class ControllerProduto {
 		return resultado;
 	}
 
+	/**
+	 * Recupera o preco de um produto a partir de seu nome e descricao.
+	 * 
+	 * Caso o produto nao exista sera lancado um IllegalArgumentException: "Erro ao
+	 * recuperar preco: produto nao existe."
+	 * 
+	 * @param nome      e o nome do produto.
+	 * @param descricao e a descricao do produto.
+	 * @return e retornado o preco do produto.
+	 */
 	public double getPrecoProduto(String nome, String descricao) {
-		
-		for (IdProduto id: produtos.keySet()) {
-			if(id.equals(new IdProduto(nome, descricao))) {
+		for (IdProduto id : produtos.keySet()) {
+			if (id.equals(new IdProduto(nome, descricao))) {
 				return this.produtos.get(id).getPreco();
 			}
 		}
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Erro ao recuperar preco: produto nao existe.");
 	}
-	
+
 	/**
-	 * Associa um produto a lista produtos. O produto e criado a partir de um nome,
-	 * descricao e preco.
+	 * Adiciona um combo ao mapa de produtos. O combo e identificado a partir de um
+	 * nome, descricao e fator de desconto e conjunto de produtos que formam este
+	 * combo.
 	 * 
 	 * Caso o nome seja nulo ou vazio sera lancado um IllegalArgumentException:
 	 * "Erro no cadastro de produto: nome nao pode ser vazio ou nulo." Caso o
@@ -230,7 +242,13 @@ public class ControllerProduto {
 	 * seja menor que ou igual a 0 sera lancado um IllegalArgumentException: "Erro
 	 * na cadastro de produto: preco invalido." Caso o produto ja exista sera
 	 * lancado um IllegalArgumentException: "Erro no cadastro de produto: produto ja
-	 * existe."
+	 * existe." Caso o conjunto de produtos que formam o combo sejam vazio ou nulo
+	 * sera lancado um IllegalArgumentException: "Erro no cadastro de combo: combo
+	 * deve ter produtos." Caso os produto que compoem o combo nao existam sera
+	 * lancado um IllegalArgumentException: "Erro no cadastro de combo: produto nao
+	 * existe." Caso os produtos que formam o combo seja um combo sera lancado um
+	 * IllegalArgumentException: "Erro no cadastro de combo: um combo nao pode
+	 * possuir combos na lista de produtos."
 	 * 
 	 * @param nome      e o nome do produto que sera passado em sua construcao.
 	 * @param descricao e a descricao do produto que sera passado em sua construcao.
@@ -245,27 +263,42 @@ public class ControllerProduto {
 			throw new IllegalArgumentException("Erro no cadastro de combo: fator invalido.");
 		if (existeProduto(nome, descricao))
 			throw new IllegalArgumentException("Erro no cadastro de combo: combo ja existe.");
-		if (produtos == null || produtos == "")	
+		if (produtos == null || produtos == "")
 			throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
 		double preco = 0;
 		String[] produtosSeparados = produtos.split(", ");
-		for (String s: produtosSeparados) {
+		for (String s : produtosSeparados) {
 			String[] nomeEDescricao = s.split(" - ");
 			if (nomeEDescricao.length != 2)
 				throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
 			String nomeProduto = nomeEDescricao[0];
 			String descricaoProduto = nomeEDescricao[1];
-			
+
 			if (!existeProduto(nomeProduto, descricaoProduto))
 				throw new IllegalArgumentException("Erro no cadastro de combo: produto nao existe.");
 			if (this.produtos.get(new IdProduto(nomeProduto, descricaoProduto)) instanceof ProdutoCombo)
-				throw new IllegalArgumentException("Erro no cadastro de combo: um combo nao pode possuir combos na lista de produtos.");
+				throw new IllegalArgumentException(
+						"Erro no cadastro de combo: um combo nao pode possuir combos na lista de produtos.");
 			preco += this.produtos.get(new IdProduto(nomeProduto, descricaoProduto)).getPreco();
 		}
-		
+
 		this.produtos.put(new IdProduto(nome, descricao), new ProdutoCombo(nome, descricao, preco, fator, produtos));
 	}
-	
+
+	/**
+	 * Substitui o fator atual de um combo por um novo. O combo e identificado a
+	 * partir de seu nome e descricao, e e trocado seu fator atual pelo passado pelo
+	 * parametro.
+	 * 
+	 * Caso o combo nao exista sera lancado um IllegalArgumentException: "Erro na
+	 * edicao de combo: produto nao existe." Caso o fator seja negativo ou igual a 1
+	 * sera lancado um IllegalArgumentException: "Erro na edicao de combo: fator
+	 * invalido."
+	 * 
+	 * @param nome      e o nome do combo.
+	 * @param descricao e a descricao do combo.
+	 * @param fator     e o fator de desconto do combo.
+	 */
 	public void editaCombo(String nome, String descricao, double fator) {
 		if (!existeProduto(nome, descricao))
 			throw new IllegalArgumentException("Erro na edicao de combo: produto nao existe.");

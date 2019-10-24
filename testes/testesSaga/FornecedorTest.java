@@ -82,8 +82,8 @@ class FornecedorTest {
 	@Test
 	void testPossuiProduto() {
 		Fornecedor carla = new Fornecedor("Carla", "carlaprecocerto@xmail.com", "83298654213");
-		assertEquals(carla.possuiProduto(), false);
-		assertEquals(alice.possuiProduto(), true);
+		assertEquals(carla.possuiProduto(), true);
+		assertEquals(alice.possuiProduto(), false);
 	}
 
 	@Test
@@ -94,7 +94,7 @@ class FornecedorTest {
 
 	@Test
 	void testExibeProduto() {
-		assertEquals(osvaldo.exibeProduto("Caderno", "Edicao limitada: De surfista."), "Caderno - Edicao limitada: De surfista. - R$25,50");
+		assertEquals(osvaldo.exibeProduto("Caderno", "Edicao limitada: De surfista."), "Caderno - Edicao limitada: De surfista, - R$25,50");
 	}
 	
 	@Test
@@ -109,21 +109,21 @@ class FornecedorTest {
 
 	@Test
 	void testListarProdutos() {
-		assertEquals(alice.listarProdutos(), "Alice - Km2 da Amazonia - Poucos km ate esgotar a floresta! - R$0,20 | "
-										   + "Alice - Grafite - Quebra a ponta em 20 linhas ou menos. - R$6,50");
+		assertEquals(alice.listarProdutos(), "Alice - Grafite - Quebra a ponta em 20 linhas ou menos, - R$6,50 | "
+											+ "Alice - Km2 da Amazonia - Poucos km ate esgotar a floresta! - R$0,20");
 	}
 
 	@Test
 	void testEditaProduto() {
 		osvaldo.editaProduto("Caderno", "Edicao limitada: De surfista.", 785.03);
-		assertEquals(osvaldo.exibeProduto("Caderno", "Edicao limitada: De surfista."), "Caderno - Edicao limitada: De surfista. - R$785,03");
+		assertEquals(osvaldo.exibeProduto("Caderno", "Edicao limitada: De surfista."), "Caderno - Edicao limitada: De surfista, - R$785,03");
 	}
 
 	@Test
 	void testRemoveProduto() {
 		alice.adicionaProduto("Ifone do Mercado Livre", "100% Original, ifone da aple, frete gratis.", 300);
 		assertEquals(alice.exibeProduto("Ifone do Mercado Livre", "100% Original, ifone da aple, frete gratis."), "Ifone do Mercado Livre - "
-										+ "100% Original, ifone da aple, frete gratis. - R$300,00");
+										+ "100% Original, ifone da aple, frete gratis, - R$300,00");
 		
 		alice.removeProduto("Ifone do Mercado Livre", "100% Original, ifone da aple, frete gratis.");
 		try {

@@ -1,10 +1,30 @@
 package saga;
 
+/**
+ * Representacao do Sistema, o sistema possui dois controladores, um de clientes
+ * e um de fornecedores, alem de gerenciar o funcionamento de todas as operacoes
+ * entre eles. Como o gerenciamento dos proprios cliente e fornecedores, de
+ * produtos dos fornecedores, das contas do cliente, de combos do fornecedores e
+ * das compras dos clientes.
+ * 
+ * @author Pedro Henrique
+ */
 public class Sistema {
 
+	/**
+	 * Representa o controlador de clientes.
+	 */
 	private ControllerCliente controladorCliente;
+
+	/**
+	 * Representa o controlador de fornecedores.
+	 */
 	private ControllerFornecedor controladorFornecedor;
 
+	/**
+	 * Constroi o sistema, construindo os controladores de clientes e de
+	 * fornecedores.
+	 */
 	public Sistema() {
 		controladorCliente = new ControllerCliente();
 		controladorFornecedor = new ControllerFornecedor();
@@ -212,6 +232,12 @@ public class Sistema {
 	 * possui uma data, o fornecedor é identificado pelo seu nome e a Conta do
 	 * cliente é identificada pelo seu cpf.
 	 * 
+	 * Caso o cpf seja nulo ou vazio sera lancada uma excecao: "Erro ao cadastrar
+	 * compra: cpf nao pode ser vazio ou nulo." Caso o cpf nao possua 11 caracteres
+	 * sera lancada uma excecao: "Erro ao cadastrar compra: cpf invalido." Caso o
+	 * cpf nao remeter a nenhum cliente sera lancada uma excecao: "Erro ao cadastrar
+	 * compra: cliente nao existe."
+	 * 
 	 * @param cpf        e o cpf do cliente que identifica sua Conta.
 	 * @param fornecedor e o fornecedor que possui as contas os clientes.
 	 * @param data       e a data que foi realizada a compra.
@@ -262,6 +288,12 @@ public class Sistema {
 	/**
 	 * Recupera o debito que um cliente tem com um fornecedor.
 	 * 
+	 * Caso o cpf seja nulo ou vazio sera lancada uma excecao: "Erro ao recuperar
+	 * debito: cpf nao pode ser vazio ou nulo." Caso o cpf nao possua 11 caracteres
+	 * sera lancada uma excecao: "Erro ao recuperar debito: cpf invalido." Caso o
+	 * cpf nao remeter a nenhum cliente sera lancada uma excecao: "Erro ao recuperar
+	 * debito: cliente nao existe."
+	 * 
 	 * @param cpf        e o cpf que identificado o cliente.
 	 * @param fornecedor e o nome que identifica o fornecedor.
 	 * @return e retornado o debito.
@@ -278,6 +310,12 @@ public class Sistema {
 
 	/**
 	 * Exibe todas as compras de um cliente de fornecedor.
+	 * 
+	 * Caso o cpf seja nulo ou vazio sera lancada uma excecao: "Erro ao exibir conta
+	 * do cliente: cpf nao pode ser vazio ou nulo." Caso o cpf nao possua 11
+	 * caracteres sera lancada uma excecao: "Erro ao exibir conta do cliente: cpf
+	 * invalido." Caso o cpf nao remeter a nenhum cliente sera lancada uma excecao:
+	 * "Erro ao exibir conta do cliente: cliente nao existe."
 	 * 
 	 * @param cpf        e o cpf que identifica o cliente.
 	 * @param fornecedor e o nome que identifica o fornecedor.
@@ -300,6 +338,12 @@ public class Sistema {
 	/**
 	 * Exibe todas as compras que um cliente possui em todos os fornecedores.
 	 * 
+	 * Caso o cpf seja nulo ou vazio sera lancada uma excecao: "Erro ao exibir
+	 * contas do cliente: cpf nao pode ser vazio ou nulo." Caso o cpf nao possua 11
+	 * caracteres sera lancada uma excecao: "Erro ao exibir contas do cliente: cpf
+	 * invalido." Caso o cpf nao remeter a nenhum cliente sera lancada uma excecao:
+	 * "Erro ao exibir contas do cliente: cliente nao existe."
+	 * 
 	 * @param cpf e o cpf que identifica o cleinte.
 	 * @return e retornado a representacao de todas as compras do cliente.
 	 */
@@ -319,8 +363,13 @@ public class Sistema {
 	/**
 	 * Efetua o pagamento de todas as compras de um cliente em um dado fornecedor.
 	 * 
+	 * Caso o cpf seja nulo ou vazio sera lancada uma excecao: "Erro no pagamento de
+	 * conta: cpf nao pode ser vazio ou nulo." Caso o cpf nao possua 11 caracteres
+	 * sera lancada uma excecao: "Erro no pagamento de conta: cpf invalido." Caso o
+	 * cpf nao remeter a nenhum cliente sera lancada uma excecao: "Erro no pagamento
+	 * de conta: cliente nao existe."
 	 * 
-	 * @param cpf e o cpf que identifica o cliente.
+	 * @param cpf        e o cpf que identifica o cliente.
 	 * @param fornecedor e o nome que identifica o fornecedor.
 	 */
 	public void realizaPagamento(String cpf, String fornecedor) {
@@ -328,13 +377,20 @@ public class Sistema {
 			throw new IllegalArgumentException("Erro no pagamento de conta: cpf nao pode ser vazio ou nulo.");
 		if (cpf.length() != 11)
 			throw new IllegalArgumentException("Erro no pagamento de conta: cpf invalido.");
-
 		if (!this.controladorCliente.existeCliente(cpf))
 			throw new IllegalArgumentException("Erro no pagamento de conta: cliente nao existe.");
 
 		controladorFornecedor.realizaPagamento(cpf, fornecedor);
 	}
 
+	/**
+	 * Substitui o criterio de ordenacao atual pelo definido no parametro.
+	 * 
+	 * Caso o criterio seja nulo ou vazio sera lancada uma excecao: "Erro na
+	 * listagem de compras: criterio nao pode ser vazio ou nulo."
+	 * 
+	 * @param criterio e o criterio de ordenacao a ser definido.
+	 */
 	public void ordenaPor(String criterio) {
 		if (criterio == null || criterio.equals(""))
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
@@ -342,6 +398,12 @@ public class Sistema {
 		controladorFornecedor.ordenaPor(criterio);
 	}
 
+	/**
+	 * Recupera a representacao String de todas as compras, a ordenacao e baseada no
+	 * criterio definido pelo usuario.
+	 * 
+	 * @return e retronado todas as compras no formato String.
+	 */
 	public String listarCompras() {
 		return controladorFornecedor.listarCompras();
 	}

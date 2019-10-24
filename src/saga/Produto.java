@@ -1,7 +1,5 @@
 package saga;
 
-import java.util.Locale;
-
 /**
  * Representacao de um produto de um fornecedor. Cada produto possui um
  * IdProduto e um preco. O IdProdtuo ira identificar unicamente o produto, ele e
@@ -99,10 +97,13 @@ public class Produto implements Comparable<Produto> {
 		return true;
 	}
 
+	/**
+	 * Compara dois produtos ao comparar seus nomes.
+	 * 
+	 * @return e retornado -1, 0 ou 1 dependendo da ordem lexicografica dos nomes.
+	 */
 	@Override
 	public int compareTo(Produto o) {
-		String nomeCompleto = this.id.getNome();
-		String nomeCompletoOutro = o.id.getNome();
-		return nomeCompleto.compareTo(nomeCompletoOutro);
+		return this.id.getNome().compareTo(o.id.getNome());
 	}
 }

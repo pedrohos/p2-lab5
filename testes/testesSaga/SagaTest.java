@@ -530,14 +530,14 @@ class SagaTest {
 			sistema.exibeProduto(null, "Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.");
 			fail("Nome foi cadastrado nulo.");
 		} catch (IllegalArgumentException iae) {
-			assertEquals(iae.getMessage(), "Erro na exibicao de produto: nome nao pode ser vazio ou nulo.");
+			assertEquals(iae.getMessage(), "Erro na exibicao de produto: fornecedor nao existe.");
 		}
 
 		try {
 			sistema.exibeProduto("Amanda", null, "Recomendado o uso em rios, somente sem protecao.");
 			fail("Descricao foi cadastrado nula.");
 		} catch (IllegalArgumentException iae) {
-			assertEquals(iae.getMessage(), "Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
+			assertEquals(iae.getMessage(), "Erro na exibicao de produto: fornecedor nao existe.");
 		}
 
 		try {
@@ -559,7 +559,7 @@ class SagaTest {
 		try {
 			sistema.exibeProdutosFornecedor("Ademar");
 		} catch (IllegalArgumentException iae) {
-			assertEquals(iae.getMessage(), "Erro na listagem de produtos: fornecedor nao existe.");
+			assertEquals(iae.getMessage(), "Erro na exibicao de produto: fornecedor nao existe.");
 		}
 
 	}
@@ -577,9 +577,9 @@ class SagaTest {
 		sistema.adicionaProduto("Amanda", "Chave Desconhecida", "Talvez seja a do banheiro", 3);
 		sistema.adicionaProduto("Amaro", "Foto 3x4", "Figurinha adesiva da copa de 2014", 3.5);
 		assertEquals(sistema.exibeProdutos(),
-				"Amaro - Foto 3x4 - Figurinha adesiva da copa de 2014 - R$3,50 | "
-						+ "Amanda - Aro banhado a ouro - Aumenta o peso do veiculo em pelo menos 1t - R$13850,70 | "
-						+ "Amanda - Chave Desconhecida - Talvez seja a do banheiro - R$3,00");
+				"Amanda - Aro banhado a ouro - Aumenta o peso do veiculo em pelo menos 1t - R$13850,70 | "
+			  + "Amanda - Chave Desconhecida - Talvez seja a do banheiro - R$3,00 | "
+			  + "Amaro - Foto 3x4 - Figurinha adesiva da copa de 2014 - R$3,50");
 	}
 
 	@Test
@@ -715,7 +715,7 @@ class SagaTest {
 		sistema.adicionaProduto("Amanda", "Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", 26.5);
 		assertEquals(
 				sistema.exibeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda"),
-				"Raquete Eletrica - Recomendado o uso em rios, somente sem protecao. - R$26,50");
+				"Raquete Eletrica - Recomendado o uso em rios, somente sem protecao, - R$26,50");
 		sistema.removeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda");
 		try {
 			sistema.exibeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda");

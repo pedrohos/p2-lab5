@@ -186,9 +186,9 @@ class SistemaTest {
 
 	@Test
 	void testListaClientes() {
-		assertEquals(sistema.listaClientes(), "Fernando - LSD - fernando@computacao.ufcg.edu.br | "
-											+ "Caio - LCC - caio@computacao.ufcg.edu.br | "
-											+ "Cassia - LSD - cassia@computacao.ufcg.edu.br");
+		assertEquals(sistema.exibeClientes(), "Caio - LCC - caio@computacao.ufcg.edu.br | "
+											+ "Cassia - LSD - cassia@computacao.ufcg.edu.br | "
+											+ "Fernando - LSD - fernando@computacao.ufcg.edu.br");
 	}
 
 	@Test
@@ -323,8 +323,8 @@ class SistemaTest {
 
 	@Test
 	void testListaFornecedores() {
-		assertEquals(sistema.listaFornecedores(), "Amaro - amaro@xmail.com - 83 77484-9141 | "
-												+ "Amanda - amanda@xmail.com - 83 79845-8956");
+		assertEquals(sistema.exibeFornecedores(), "Amanda - amanda@xmail.com - 83 79845-8956 | "
+												+ "Amaro - amaro@xmail.com - 83 77484-9141");
 	}
 
 	@Test
@@ -469,13 +469,13 @@ class SistemaTest {
 		
 		try {
 			sistema.adicionaProduto("Amanda", "Raquete Eletrica", null, 12.2);
-			fail("Descricao foi cadastradA nula.");
+			fail("Descricao foi cadastrada nula.");
 		} catch (IllegalArgumentException iae) {
 			assertEquals(iae.getMessage(), "Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
 		}
 		
 		try {
-			sistema.adicionaProduto("Amanda", "Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", 0);
+			sistema.adicionaProduto("Amanda", "Raquete Nao-Eletrica", "Bom para matar moscas e outros insetos.", 0);
 			fail("Preco invalido.");
 		} catch (IllegalArgumentException iae) {
 			assertEquals(iae.getMessage(), "Erro no cadastro de produto: preco invalido.");
@@ -521,14 +521,14 @@ class SistemaTest {
 			sistema.exibeProduto(null, "Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.");
 			fail("Nome foi cadastrado nulo.");
 		} catch (IllegalArgumentException iae) {
-			assertEquals(iae.getMessage(), "Erro na exibicao de produto: nome nao pode ser vazio ou nulo.");
+			assertEquals(iae.getMessage(), "Erro na exibicao de produto: fornecedor nao existe.");
 		}
 		
 		try {
 			sistema.exibeProduto("Amanda", null, "Recomendado o uso em rios, somente sem protecao.");
 			fail("Descricao foi cadastrado nula.");
 		} catch (IllegalArgumentException iae) {
-			assertEquals(iae.getMessage(), "Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
+			assertEquals(iae.getMessage(), "Erro na exibicao de produto: fornecedor nao existe.");
 		}
 		
 		try {
@@ -548,16 +548,16 @@ class SistemaTest {
 	@Test
 	void testListarProdutosInvalido() {
 		try {
-			sistema.listarProdutos("Ademar");
+			sistema.exibeProdutosFornecedor("Ademar");
 		} catch(IllegalArgumentException iae) {
-			assertEquals(iae.getMessage(), "Erro na listagem de produtos: fornecedor nao existe.");
+			assertEquals(iae.getMessage(), "Erro na exibicao de produto: fornecedor nao existe.");
 		}
 		
 	}
 	
 	@Test
 	void testListarProdutos() {
-		assertEquals(sistema.listarProdutos("Amanda"), "Amanda - Aro banhado a ouro - Aumenta o peso do veiculo em pelo menos 1t - R$13850,70 | "
+		assertEquals(sistema.exibeProdutosFornecedor("Amanda"), "Amanda - Aro banhado a ouro - Aumenta o peso do veiculo em pelo menos 1t - R$13850,70 | "
 													 + "Amanda - Chave Desconhecida - Talvez seja a do banheiro - R$3,00");
 	}
 
@@ -566,9 +566,8 @@ class SistemaTest {
 		sistema.adicionaProduto("Amanda", "Aro banhado a ouro", "Aumenta o peso do veiculo em pelo menos 1t", 13850.7);
 		sistema.adicionaProduto("Amanda", "Chave Desconhecida", "Talvez seja a do banheiro", 3);
 		sistema.adicionaProduto("Amaro", "Foto 3x4", "Figurinha adesiva da copa de 2014", 3.5);
-		assertEquals(sistema.listarProdutosTodosFornecedores(), "Amaro - Foto 3x4 - Figurinha adesiva da copa de 2014 - R$3,50 | "
-																+ "Amanda - Aro banhado a ouro - Aumenta o peso do veiculo em pelo menos 1t - R$13850,70 | "
-																+ "Amanda - Chave Desconhecida - Talvez seja a do banheiro - R$3,00");
+		assertEquals(sistema.exibeFornecedores(), "Amanda - amanda@xmail.com - 83 79845-8956 | "
+												+ "Amaro - amaro@xmail.com - 83 77484-9141");
 	}
 	
 	@Test
@@ -639,7 +638,6 @@ class SistemaTest {
 	
 	@Test
 	void testRemoveProdutoInvalido() {
-		sistema.adicionaProduto("Amanda", "Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", 26.5);
 		try {
 			sistema.removeProduto("", "Recomendado o uso em rios, somente sem protecao.", "Amanda");
 			fail("Nome esta vazio.");
@@ -700,7 +698,7 @@ class SistemaTest {
 	@Test
 	void testRemoveProduto() {
 		sistema.adicionaProduto("Amanda", "Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", 26.5);
-		assertEquals(sistema.exibeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda"), "Raquete Eletrica - Recomendado o uso em rios, somente sem protecao. - R$26,50");
+		assertEquals(sistema.exibeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda"), "Raquete Eletrica - Recomendado o uso em rios, somente sem protecao, - R$26,50");
 		sistema.removeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda");
 		try {
 			sistema.exibeProduto("Raquete Eletrica", "Recomendado o uso em rios, somente sem protecao.", "Amanda");

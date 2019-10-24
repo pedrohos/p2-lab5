@@ -6,14 +6,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Representacao do controlador de fornecedores do sistema.
+ * Representacao do controlador de fornecedores do sistema. Este controlador
+ * mantem controle dos produtos e combos do sistema, das contas que os usuarios
+ * possuem com os fornecedores, dos proprios fornecedores e das compras que
+ * clientes efetuaram em determinados fornecedores.
  * 
  * @author Pedro Henrique
  */
 public class ControllerFornecedor {
 
+	/**
+	 * Armazena o criterio de ordenacao atual das compras.
+	 */
 	private Criterio criterio;
-	
+
 	/**
 	 * Armazena no mapa de fornecedores o nome do Fornecedor, Fornecedor.
 	 */
@@ -347,69 +353,91 @@ public class ControllerFornecedor {
 
 		this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 	}
-	
+
 	/**
-	 * Adiciona um compra na conta de um cliente em dado fornecedor.
-	 * A compra e referente a um produto (que possui nome e descricao) e possui
-	 * data, todos esse dados sao registrados na compra.
+	 * Adiciona um compra na conta de um cliente em dado fornecedor. A compra e
+	 * referente a um produto (que possui nome e descricao) e possui data, todos
+	 * esse dados sao registrados na compra.
 	 * 
-	 * @param cpf e o cpf do cliente que efetuou a compra.
-	 * @param fornecedor e o nome do fornecedor que 
-	 * @param data e a data da compra.
-	 * @param nome e o nome do produto.
-	 * @param descricao e a descricao do produto.
-	 * @param cliente e o cliente que efetuou a compra.
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um
+	 * IllegalArgumentException: "Erro ao cadastrar compra: fornecedor nao pode ser
+	 * vazio ou nulo." Caso o fornecedor nao exista sera lancado um
+	 * IllegalArgumentException: "Erro ao cadastrar compra: fornecedor nao existe."
+	 * 
+	 * @param cpf        e o cpf do cliente que efetuou a compra.
+	 * @param fornecedor e o nome do fornecedor que
+	 * @param data       e a data da compra.
+	 * @param nome       e o nome do produto.
+	 * @param descricao  e a descricao do produto.
+	 * @param cliente    e o cliente que efetuou a compra.
 	 */
-	public void adicionaCompra(String cpf, String fornecedor, String data, String nome, String descricao, String cliente) {
+	public void adicionaCompra(String cpf, String fornecedor, String data, String nome, String descricao,
+			String cliente) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
-		if(!existeFornecedor(fornecedor))
+		if (!existeFornecedor(fornecedor))
 			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao existe.");
-		
+
 		this.fornecedores.get(fornecedor).adicionaCompra(cpf, data, nome, descricao, cliente);
 	}
-	
+
 	/**
-	 * Cadastra um combo em determinado fornecedor.
-	 * O combo e identificado pelo e nome e descricao e possui um fator que representa
-	 * o desconto, além de uma lista de produtos que indicam os produtos que formam este combo.
+	 * Cadastra um combo em determinado fornecedor. O combo e identificado pelo e
+	 * nome e descricao e possui um fator que representa o desconto, além de uma
+	 * lista de produtos que indicam os produtos que formam este combo.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um
+	 * IllegalArgumentException: "Erro no cadastro de combo: fornecedor nao pode ser
+	 * vazio ou nulo." Caso o fornecedor nao exista sera lancado um
+	 * IllegalArgumentException: "Erro no cadastro de combo: fornecedor nao existe."
 	 * 
 	 * @param fornecedor e o fornecedor que tera o combo cadastrado.
-	 * @param nome e o nome do combo que sera cadastrado.
-	 * @param descricao e a descricoa do combo que sera cadastrado.
-	 * @param fator e o fator que representa o desconto do combo.
-	 * @param produtos e a lista de produtos que formam o combo.
+	 * @param nome       e o nome do combo que sera cadastrado.
+	 * @param descricao  e a descricoa do combo que sera cadastrado.
+	 * @param fator      e o fator que representa o desconto do combo.
+	 * @param produtos   e a lista de produtos que formam o combo.
 	 */
 	public void adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
 		if (!existeFornecedor(fornecedor))
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao existe.");
-		
+
 		this.fornecedores.get(fornecedor).adicionaCombo(nome, descricao, fator, produtos);
 	}
 
 	/**
-	 * Edita o fator de um combo de um fornecedor a partir do nome e descricao do combo.
+	 * Edita o fator de um combo de um fornecedor a partir do nome e descricao do
+	 * combo.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um
+	 * IllegalArgumentException: "Erro na edicao de combo: fornecedor nao pode ser
+	 * vazio ou nulo." Caso o fornecedor nao exista sera lancado um
+	 * IllegalArgumentException: "Erro na edicao de combo: fornecedor nao existe."
 	 * 
 	 * @param fornecedor e o fornecedor que tera o combo cadastrado.
-	 * @param nome e o nome do combo que sera cadastrado.
-	 * @param descricao e a descricoa do combo que sera cadastrado.
-	 * @param fator e o novo fator que representa o desconto do combo.
+	 * @param nome       e o nome do combo que sera cadastrado.
+	 * @param descricao  e a descricoa do combo que sera cadastrado.
+	 * @param fator      e o novo fator que representa o desconto do combo.
 	 */
 	public void editaCombo(String fornecedor, String nome, String descricao, double fator) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro na edicao de combo: fornecedor nao pode ser vazio ou nulo.");
 		if (!existeFornecedor(fornecedor))
 			throw new IllegalArgumentException("Erro na edicao de combo: fornecedor nao existe.");
-		
+
 		this.fornecedores.get(fornecedor).editaCombo(nome, descricao, fator);
 	}
 
 	/**
-	 * Retorna o debito que um cliente tem com um dado fornecedor. 
+	 * Retorna o debito que um cliente tem com um dado fornecedor.
 	 * 
-	 * @param cpf e o cpf do cliente.
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um
+	 * IllegalArgumentException: "Erro ao recuperar debito: fornecedor nao pode ser
+	 * vazio ou nulo." Caso o fornecedor nao exista sera lancado um
+	 * IllegalArgumentException: "Erro ao recuperar debito: fornecedor nao existe."
+	 * 
+	 * @param cpf        e o cpf do cliente.
 	 * @param fornecedor o nome do fornecedor.
 	 * @return e retornado o debito do cliente e fornecedor.
 	 */
@@ -418,36 +446,65 @@ public class ControllerFornecedor {
 			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao pode ser vazio ou nulo.");
 		if (!existeFornecedor(fornecedor))
 			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao existe.");
-		
+
 		return this.fornecedores.get(fornecedor).getDebito(cpf);
 	}
 
+	/**
+	 * Lista todas as contas que um cliente possui em um fornecedor. Primeiro e
+	 * gerada uma lista com os fornecedores que possuem conta de dado cliente e
+	 * posteriormente esta lista
+	 * {@link saga.ControllerFornecedor#iteraPelasContas(String, ArrayList)}.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um
+	 * IllegalArgumentException: "Erro ao exibir conta do cliente: fornecedor nao
+	 * pode ser vazio ou nulo." Caso o fornecedor nao exista sera lancado um
+	 * IllegalArgumentException: "Erro ao exibir conta do cliente: fornecedor nao
+	 * existe."
+	 * 
+	 * @param cpf        e o cpf do cliente.
+	 * @param fornecedor e o nome do fornecedor.
+	 * @param cliente    e o nome do cliente.
+	 * @return e retornada todas as contas que um cliente tem em dado fornecedor.
+	 */
 	public String exibeContas(String cpf, String fornecedor, String cliente) {
 		if (fornecedor == null || fornecedor.equals(""))
-			throw new IllegalArgumentException("Erro ao exibir conta do cliente: fornecedor nao pode ser vazio ou nulo.");
+			throw new IllegalArgumentException(
+					"Erro ao exibir conta do cliente: fornecedor nao pode ser vazio ou nulo.");
 		if (!existeFornecedor(fornecedor))
 			throw new IllegalArgumentException("Erro ao exibir conta do cliente: fornecedor nao existe.");
-		
+
 		String resultado = "Cliente: " + cliente + " | ";
 		ArrayList<Fornecedor> fornecedoresComConta = new ArrayList<>();
 		if (!fornecedores.isEmpty()) {
-			for (Fornecedor f: fornecedores.values()) {
+			for (Fornecedor f : fornecedores.values()) {
 				if (f.getNome().equals(fornecedor) && f.possuiConta(cpf)) {
 					fornecedoresComConta.add(f);
 				}
 			}
 			if (fornecedoresComConta.isEmpty())
-				throw new IllegalArgumentException("Erro ao exibir conta do cliente: cliente nao tem nenhuma conta com o fornecedor.");
+				throw new IllegalArgumentException(
+						"Erro ao exibir conta do cliente: cliente nao tem nenhuma conta com o fornecedor.");
 		}
 		return resultado + iteraPelasContas(cpf, fornecedoresComConta);
 	}
-	
+
+	/**
+	 * Lista todas as contas que um cliente em todos os fornecedores. Primeiro e
+	 * gerada uma lista com os fornecedores que possuem conta de dado cliente e
+	 * posteriormente esta lista
+	 * {@link saga.ControllerFornecedor#iteraPelasContas(String, ArrayList)}.
+	 * 
+	 * @param cpf     e o cpf do cliente cujas contas sera recuperadas.
+	 * @param cliente e o nome do cliente.
+	 * @return e retornado a representacao String que um cliente possui em todos os
+	 *         fornecedores cadastrados do sistema.
+	 */
 	public String exibeContasClientes(String cpf, String cliente) {
-		
 		String resultado = "Cliente: " + cliente + " | ";
 		ArrayList<Fornecedor> fornecedoresComConta = new ArrayList<>();
 		if (!fornecedores.isEmpty()) {
-			for (Fornecedor f: fornecedores.values()) {
+			for (Fornecedor f : fornecedores.values()) {
 				if (f.possuiConta(cpf)) {
 					fornecedoresComConta.add(f);
 				}
@@ -458,7 +515,18 @@ public class ControllerFornecedor {
 		}
 		return resultado + iteraPelasContas(cpf, fornecedoresComConta);
 	}
-	
+
+	/**
+	 * E iterada pela lista de fornecedores que possuem conta de determinado cliente
+	 * e e retornado a exibicao toString das contas de cada cliente, separados por "
+	 * | ".
+	 * 
+	 * @param cpf                  e o cpf do cliente cujas contas serao exibidas.
+	 * @param fornecedoresComConta e a lista de fornecedores que possuem a conta do
+	 *                             dado cliente.
+	 * @return e retornado a representacao String de todos as contas de um cliente
+	 *         da lista de fornecedores.
+	 */
 	private String iteraPelasContas(String cpf, ArrayList<Fornecedor> fornecedoresComConta) {
 		String resultado = "";
 		Iterator<Fornecedor> it = fornecedoresComConta.iterator();
@@ -474,48 +542,83 @@ public class ControllerFornecedor {
 		return resultado;
 	}
 
+	/**
+	 * Realiza o pagamento das contas de um cliente em determinado fornecedor.
+	 * 
+	 * Caso o fornecedor seja vazio ou nulo sera lancado um
+	 * IllegalArgumentException: "Erro no pagamento de conta: fornecedor nao pode
+	 * ser vazio ou nulo." Caso o fornecedor nao exista sera lancado um
+	 * IllegalArgumentException: "Erro no pagamento de conta: fornecedor nao
+	 * existe."
+	 * 
+	 * @param cpf        e o cpf do cliente cujo pagamento das contas sera
+	 *                   realizado.
+	 * @param fornecedor e o fornecedor que possui a conta do cliente.
+	 */
 	public void realizaPagamento(String cpf, String fornecedor) {
 		if (fornecedor == null || fornecedor.equals(""))
 			throw new IllegalArgumentException("Erro no pagamento de conta: fornecedor nao pode ser vazio ou nulo.");
 		if (!existeFornecedor(fornecedor))
 			throw new IllegalArgumentException("Erro no pagamento de conta: fornecedor nao existe.");
-		
+
 		this.fornecedores.get(fornecedor).realizaPagamento(cpf);
 	}
 
+	/**
+	 * Substitui o criterio de ordenacao atual pelo recebido por parametro.
+	 * 
+	 * Caso o criterio seja invalido sera lancada uma excecao: "Erro na listagem de
+	 * compras: criterio nao oferecido pelo sistema."
+	 * 
+	 * @param criterio e o nome criterio de ordenacao.
+	 */
 	public void ordenaPor(String criterio) {
 		switch (criterio) {
-			case "Cliente":
-				this.criterio = new OrdenaCliente();
-				break;
-			case "Fornecedor":
-				this.criterio = new OrdenaFornecedor();
-				break;
-			case "Data":
-				this.criterio = new OrdenaCompra();
-				break;
-			default:
-				throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
+		case "Cliente":
+			this.criterio = new OrdenaCliente();
+			break;
+		case "Fornecedor":
+			this.criterio = new OrdenaFornecedor();
+			break;
+		case "Data":
+			this.criterio = new OrdenaData();
+			break;
+		default:
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
 		}
 	}
-	
+
+	/**
+	 * Recupera todas as compras de cada fornecedor e retorna esta lista.
+	 * 
+	 * @return retorna a lista de todas as compras.
+	 */
 	private ArrayList<Compra> processaCompras() {
 		ArrayList<Compra> compras = new ArrayList<>();
-		for (Fornecedor f: fornecedores.values()) {
-			for (Compra compra: f.retornaCompras()) {
+		for (Fornecedor f : fornecedores.values()) {
+			for (Compra compra : f.retornaCompras()) {
 				compras.add(compra);
 			}
 		}
 		return compras;
 	}
 
+	/**
+	 * Lista todas as compras do sistema se baseando na ordenacao atual do sistema.
+	 * 
+	 * Caso o criterio seja nulo sera lancada uma excecao: "Erro na listagem de
+	 * compras: criterio ainda nao definido pelo sistema."
+	 * 
+	 * @return e retornada a listagem das compras ordenadas.
+	 */
 	public String listarCompras() {
 		if (criterio == null)
-			throw new IllegalArgumentException("Erro na listagem de compras: criterio ainda nao definido pelo sistema.");
-		
+			throw new IllegalArgumentException(
+					"Erro na listagem de compras: criterio ainda nao definido pelo sistema.");
+
 		ArrayList<Compra> compras = processaCompras();
 		Collections.sort(compras, criterio);
-		
+
 		return criterio.listaCompras(compras);
 	}
 }

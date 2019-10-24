@@ -132,63 +132,63 @@ public class Saga {
 	public void removeProduto(String fornecedor, String nome, String descricao) {
 		sistema.removeProduto(fornecedor, nome, descricao);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#adicionaCompra(String, String, String, String, String)}
 	 */
 	public void adicionaCompra(String cpf, String fornecedor, String data, String nome, String descricao) {
 		sistema.adicionaCompra(cpf, fornecedor, data, nome, descricao);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#adicionaCombo(String, String, String, double, String)}
 	 */
 	public void adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		sistema.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#editaCombo(String, String, String, double)}
 	 */
 	public void editaCombo(String nome, String descricao, String fornecedor, double fator) {
 		sistema.editaCombo(fornecedor, nome, descricao, fator);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#getDebito(String, String)}
 	 */
 	public String getDebito(String cpf, String fornecedor) {
 		return sistema.getDebito(cpf, fornecedor);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#exibeContas(String, String)}
 	 */
 	public String exibeContas(String cpf, String fornecedor) {
 		return sistema.exibeContas(cpf, fornecedor);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#exibeContasClientes(String)}
 	 */
 	public String exibeContasClientes(String cpf) {
 		return sistema.exibeContasClientes(cpf);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#realizaPagamento(String, String)}
 	 */
 	public void realizaPagamento(String cpf, String fornecedor) {
 		sistema.realizaPagamento(cpf, fornecedor);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#ordenaPor(String)}
 	 */
 	public void ordenaPor(String criterio) {
 		sistema.ordenaPor(criterio);
 	}
-	
+
 	/**
 	 * {@link saga.Sistema#listarCompras()}
 	 */
@@ -199,7 +199,8 @@ public class Saga {
 	public static void main(String[] args) {
 		args = new String[] { "saga.Saga", "testes_aceitacao/use_case_1.txt", "testes_aceitacao/use_case_2.txt",
 				"testes_aceitacao/use_case_3.txt", "testes_aceitacao/use_case_4.txt", "testes_aceitacao/use_case_6.txt",
-				"testes_aceitacao/use_case_5.txt", "testes_aceitacao/use_case_7.txt", "testes_aceitacao/use_case_8.txt" };
+				"testes_aceitacao/use_case_5.txt", "testes_aceitacao/use_case_7.txt",
+				"testes_aceitacao/use_case_8.txt" };
 		EasyAccept.main(args);
 	}
 }
